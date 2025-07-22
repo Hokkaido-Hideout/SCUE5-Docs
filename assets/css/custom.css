@@ -1,0 +1,9 @@
+/* Hide the GitHub button */
+.github-button {
+  display: none !important;
+}
+
+/* Hide the footer credit */
+footer .footer {
+  display: none !important;
+}
