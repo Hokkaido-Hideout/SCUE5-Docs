@@ -9,7 +9,7 @@ footer .footer {
 }
 
 /* Hide brand on screens narrower than 768px */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .nav-brand {
     display: none !important;
   }
