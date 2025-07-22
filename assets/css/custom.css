@@ -260,36 +260,3 @@ footer .footer {
 .main-content pre {
   animation: crt-glow 1.5s infinite alternate;
 }
-
-#chat-launcher {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #FFA500;
-  color: #111;
-  padding: 14px 16px;
-  font-size: 22px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 10px #000;
-  z-index: 9999;
-  transition: background 0.2s ease;
-}
-
-#chat-launcher:hover {
-  background: #FFCC66;
-}
-
-#chat-container {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 320px;
-  height: 480px;
-  background-color: #111;
-  border: 2px solid #444;
-  border-radius: 10px;
-  overflow: hidden;
-  z-index: 9999;
-  box-shadow: 0 0 20px #000;
-}
