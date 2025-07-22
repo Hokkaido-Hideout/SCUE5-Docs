@@ -39,5 +39,20 @@
     <main id="content" class="main-content" role="main">
       {{ content }}
     </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const blocks = document.querySelectorAll('pre > code.language-mermaid');
+        blocks.forEach((block, i) => {
+          const parent = block.parentElement;
+          const graphDefinition = block.textContent;
+          const container = document.createElement('div');
+          container.classList.add('mermaid');
+          container.innerHTML = graphDefinition;
+          parent.replaceWith(container);
+        });
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      });
+    </script>
   </body>
 </html>
