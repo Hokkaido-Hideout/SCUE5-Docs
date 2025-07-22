@@ -200,3 +200,36 @@ footer .footer {
   text-shadow: 0 0 6px #00FFFF;
   transition: all 0.3s ease-in-out;
 }
+
+/* CRT terminal-style code blocks */
+.main-content pre {
+  background-color: #0b0b0b; /* Deep CRT black */
+  color: #00FF66; /* Terminal green */
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  box-shadow: 0 0 10px #00FF66aa;
+  text-shadow: 0 0 2px #00FF66;
+  position: relative;
+}
+
+/* Code blocks: Green scanline overlay */
+.main-content pre::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 100, 0.05) 3px,
+    transparent 4px
+  );
+}
