@@ -204,7 +204,7 @@ footer .footer {
 /* CRT terminal-style code blocks */
 .main-content pre {
   background-color: #0b0b0b; /* Deep CRT black */
-  color: #00FF66; /* Terminal green */
+  color: #00FFFF; /* Neon Aqua */
   font-family: 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.4;
