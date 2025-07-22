@@ -146,3 +146,24 @@ footer .footer {
   font-size: 14px;
   fill: #ccc;
 }
+
+/* Brand text styling */
+.nav-brand {
+  color: #00BFFF; /* DeepSkyBlue / Ocean Blue */
+  font-weight: bold;
+  font-size: 16px;
+  text-shadow: 0 0 2px #F0F8FF; /* Pearl glow */
+}
+
+/* Menu link text color */
+.nav-links a {
+  color: #FFA500; /* Golden Orange */
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+/* Menu hover effect */
+.nav-links a:hover {
+  color: #FFCC66; /* Softer gold on hover */
+  text-decoration: underline;
+}
