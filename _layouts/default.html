@@ -20,31 +20,19 @@
     <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   </head>
 
-  <script src="https://cdn.jsdelivr.net/npm/gpt2-chatbot-embed@1.0.2/dist/gpt2-chatbot.min.js"></script>
-  <script>
-    GPT2Chatbot.init({
-      name: "HKH Assistant",
-      welcomeMessage: "Hi! Need help with SCUE5 or HKH Tools?",
-      placeholder: "Ask me anything...",
-      apiKey: "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",
-      model: "openrouter/llama3-8b",
-      temperature: 0.7,
-      systemPrompt: "You are a helpful assistant who answers questions about the HKH Interactive(The Hokkaido Hideout)'s software and plugins for the Unreal Engine.",
-    });
-  </script>
-
   <!-- Floating Chatbot Trigger + Container -->
   <div id="chat-launcher">💬</div>  
   <div id="chat-container" style="display:none;">
     <iframe
       id="chatbot-frame"
-      src="https://gpt2-chatbot-embed.vercel.app/?name=HKH+Assistant&system=You+are+a+helpful+assistant+for+HKH+Interactive's+products.&model=openrouter%2Fllama3-8b&theme=dark"
+      src="https://chatbot-ui-openrouter.vercel.app/embed?model=openrouter%2Fmistral-7b-instruct&apiKey=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"
       width="100%"
       height="100%"
       frameborder="0"
+      style="border-radius: 10px;"
     ></iframe>
   </div>
-
+  
   <script>
     const launcher = document.getElementById('chat-launcher');
     const container = document.getElementById('chat-container');
