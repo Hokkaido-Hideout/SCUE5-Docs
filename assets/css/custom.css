@@ -13,10 +13,94 @@ footer .footer {
   margin-left: 10%;
   margin-right: 10%;
   max-width: 80%;
+  padding-top: 50px; /* To avoid overlap */
 }
 
 /* Optional: add top/bottom spacing too */
 .main-content {
   margin-top: 2rem;
   margin-bottom: 4rem;
+}
+
+.top-toolbar {
+  background-color: #151515;
+  color: #fff;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-family: sans-serif;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 999;
+  position: fixed;
+  top: 0;
+}
+
+.nav-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10%;
+}
+
+.nav-brand {
+  font-weight: bold;
+  font-size: 14px;
+  align-self: center;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 10px 5px;
+  display: block;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #1c1c1c;
+  min-width: 160px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+.dropdown-content li a {
+  padding: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.dropdown:hover .dropdown-content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
