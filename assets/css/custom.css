@@ -204,14 +204,14 @@ footer .footer {
 /* CRT terminal-style code blocks */
 .main-content pre {
   background-color: #0b0b0b; /* Deep CRT black */
-  color: #00FFFF; /* Neon Aqua */
+  color: #00FFFF; /* Terminal green */
   font-family: 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.4;
   padding: 1em;
   border-radius: 6px;
   overflow-x: auto;
-  box-shadow: 0 0 10px #00FF66aa;
+  box-shadow: 0 0 10px #00FFFF;
   text-shadow: 0 0 2px #00FF66;
   position: relative;
 }
@@ -232,4 +232,13 @@ footer .footer {
     rgba(0, 255, 100, 0.05) 3px,
     transparent 4px
   );
+}
+
+@keyframes crt-glow {
+  0%, 100% { text-shadow: 0 0 2px #00FFFF, 0 0 4px #00ff66; }
+  50% { text-shadow: 0 0 4px #00FFFF, 0 0 8px #00ff66; }
+}
+
+.main-content pre {
+  animation: crt-glow 1.5s infinite alternate;
 }
