@@ -201,6 +201,19 @@ footer .footer {
   transition: all 0.3s ease-in-out;
 }
 
+/* Terminal title bar */
+.main-content pre::after {
+  content: "▶ user@hkh-terminal:~$";
+  display: block;
+  position: absolute;
+  top: -1.8em;
+  left: 0.5em;
+  color: #00FF66;
+  font-family: monospace;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
 /* CRT terminal-style code blocks */
 .main-content pre {
   background-color: #0b0b0b; /* Deep CRT black */
