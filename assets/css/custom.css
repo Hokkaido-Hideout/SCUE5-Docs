@@ -183,12 +183,19 @@ footer .footer {
   margin-top: 1.5em;
 }
 
-.main-content h1,
-.main-content h2,
-.main-content h3,
-.main-content h4,
-.main-content h5,
-.main-content h6:hover {
+.main-content h1:hover {
+  color: #00FFFF; /* Neon Aqua */
+  text-shadow: 0 0 6px #00FFFF;
+  transition: all 0.3s ease-in-out;
+}
+
+.main-content h2:hover {
+  color: #00FFFF; /* Neon Aqua */
+  text-shadow: 0 0 6px #00FFFF;
+  transition: all 0.3s ease-in-out;
+}
+
+.main-content h3:hover {
   color: #00FFFF; /* Neon Aqua */
   text-shadow: 0 0 6px #00FFFF;
   transition: all 0.3s ease-in-out;
