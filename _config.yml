@@ -1,3 +1,3 @@
 title: HKH Docs
-remote_theme: just-the-docs/just-the-docs
-color_scheme: dark
+remote_theme: mmistakes/minimal-mistakes
+markdown: kramdown
