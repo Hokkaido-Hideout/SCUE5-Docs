@@ -9,6 +9,24 @@
     <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   </head>
   <body>
+    <header class="top-toolbar">
+      <nav class="nav-container">
+        <div class="nav-brand">HKH Interactive</div>
+        <ul class="nav-links">
+          <li><a href="https://thehokkaidohideout.com">Home</a></li>
+          <li class="dropdown">
+            <a href="#">Docs ▾</a>
+            <ul class="dropdown-content">
+              <li><a href="https://scue.hkh-interactive.com">SCUE5</a></li>
+              <li><a href="https://scue.hkh-interactive.com"">MGC (C++)</a></li>
+            </ul>
+          </li>
+          <li><a href="https://thehokkaidohideout.com/products/">Products</a></li>
+          <li><a href="https://thehokkaidohideout.com/services/">Services</a></li>
+          <li><a href="https://thehokkaidohideout.com/contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
     <main id="content" class="main-content" role="main">
       {{ content }}
     </main>
