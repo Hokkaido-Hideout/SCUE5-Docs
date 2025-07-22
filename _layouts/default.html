@@ -31,6 +31,15 @@
       frameborder="0"
     ></iframe>
   </div>
+
+  <script>
+    const launcher = document.getElementById('chat-launcher');
+    const container = document.getElementById('chat-container');
+    launcher.addEventListener('click', () => {
+      const isVisible = container.style.display === 'block';
+      container.style.display = isVisible ? 'none' : 'block';
+    });
+  </script>
   
   <body>
     <header class="top-toolbar">
@@ -89,13 +98,6 @@
         model: "openrouter/llama3-8b",
         temperature: 0.7,
         systemPrompt: "You are a helpful assistant who answers questions about the HKH Interactive(The Hokkaido Hideout)'s software and plugins for the Unreal Engine.",
-      });
-    </script>
-
-    <script>
-      document.getElementById('chat-launcher').addEventListener('click', function () {
-        const chat = document.getElementById('chat-container');
-        chat.style.display = chat.style.display === 'none' ? 'block' : 'none';
       });
     </script>
 
