@@ -79,5 +79,12 @@
       });
     </script>
 
+    <script>
+      document.getElementById('chat-launcher').addEventListener('click', function () {
+        const chat = document.getElementById('chat-container');
+        chat.style.display = chat.style.display === 'none' ? 'block' : 'none';
+      });
+    </script>
+
   </body>
 </html>
