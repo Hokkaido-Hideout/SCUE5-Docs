@@ -44,14 +44,6 @@
     {{ content }}
   </main>
 
-  <!-- 💬 Floating Chat Button ONLY (iframe will be added later) -->
-  <div id="chat-launcher">💬</div>
-
-  <!-- Future container (inactive until embed solution ready) -->
-  <div id="chat-container" style="display:none;">
-    <div style="color: white; padding: 1em;">Assistant coming soon...</div>
-  </div>
-
   <script>
     // Mermaid rendering for diagrams
     document.addEventListener("DOMContentLoaded", function () {
@@ -69,14 +61,6 @@
         block.parentElement.replaceWith(wrapper);
       });
       mermaid.init(undefined, document.querySelectorAll('.mermaid'));
-    });
-
-    // Floating button toggle
-    const launcher = document.getElementById('chat-launcher');
-    const container = document.getElementById('chat-container');
-    launcher.addEventListener('click', () => {
-      const isVisible = container.style.display === 'block';
-      container.style.display = isVisible ? 'none' : 'block';
     });
   </script>
 </body>
