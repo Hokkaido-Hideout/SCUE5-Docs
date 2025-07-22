@@ -8,6 +8,13 @@ footer .footer {
   display: none !important;
 }
 
+/* Hide brand on screens narrower than 768px */
+@media (max-width: 768px) {
+  .nav-brand {
+    display: none !important;
+  }
+}
+
 /* Add 10% horizontal margins to the main content */
 .main-content {
   margin-left: 10%;
