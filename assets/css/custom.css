@@ -15,6 +15,11 @@ footer .footer {
   }
 }
 
+.main-content pre {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+}
+
 /* Add 10% horizontal margins to the main content */
 .main-content {
   margin-left: 10%;
