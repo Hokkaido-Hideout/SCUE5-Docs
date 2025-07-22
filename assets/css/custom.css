@@ -7,3 +7,16 @@
 footer .footer {
   display: none !important;
 }
+
+/* Add 10% horizontal margins to the main content */
+.main-content {
+  margin-left: 10%;
+  margin-right: 10%;
+  max-width: 80%;
+}
+
+/* Optional: add top/bottom spacing too */
+.main-content {
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
