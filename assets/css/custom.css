@@ -16,10 +16,20 @@ footer .footer {
   padding-top: 50px; /* To avoid overlap */
 }
 
-/* Optional: add top/bottom spacing too */
+/* Add top/bottom spacing */
 .main-content {
   margin-top: 2rem;
   margin-bottom: 4rem;
+}
+
+/* Center and clamp images */
+.main-content img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 1em auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .top-toolbar {
