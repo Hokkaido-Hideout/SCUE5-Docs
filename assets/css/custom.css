@@ -261,7 +261,6 @@ footer .footer {
   animation: crt-glow 1.5s infinite alternate;
 }
 
-/* 🔘 Chat bubble launcher */
 #chat-launcher {
   position: fixed;
   bottom: 20px;
@@ -281,7 +280,6 @@ footer .footer {
   background: #FFCC66;
 }
 
-/* 💬 Chat window container */
 #chat-container {
   position: fixed;
   bottom: 80px;
