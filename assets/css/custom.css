@@ -114,3 +114,28 @@ footer .footer {
   transform: translateY(0);
   pointer-events: auto;
 }
+
+/* Wrap for zoom and centering */
+.mermaid-zoom-wrapper {
+  overflow: auto;
+  max-width: 100%;
+  margin: 2em auto;
+  padding: 1em;
+  border-radius: 6px;
+  background-color: #1a1a1a;
+  text-align: center;
+}
+
+/* Enable mouse drag panning (horizontal) */
+.mermaid-zoom-wrapper svg {
+  cursor: grab;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix node labels breaking layout */
+.mermaid text {
+  font-family: sans-serif;
+  font-size: 14px;
+  fill: #ccc;
+}
