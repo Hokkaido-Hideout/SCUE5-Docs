@@ -1,39 +1,77 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-    <script>
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: 'loose',
-        theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
-      });
-    </script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }} - {{ site.title }}</title>
 
-    <title>{{ page.title }} - {{ site.title }}</title>
-    <link rel="icon" type="image/png" href="{{ '/assets/img/favicon.png' | relative_url }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="{{ '/assets/img/favicon.png' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
-  </head>
-
-  <!-- Floating Chatbot Trigger + Container -->
-  <div id="chat-launcher">💬</div>  
-  <div id="chat-container" style="display:none;">
-    <iframe
-      id="chatbot-frame"
-      src="https://chatbot-ui-openrouter.vercel.app/embed?model=openrouter%2Fmistral-7b-instruct&apiKey=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"
-      width="100%"
-      height="100%"
-      frameborder="0"
-      style="border-radius: 10px;"
-    ></iframe>
-  </div>
-  
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'loose',
+      theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
+    });
+  </script>
+</head>
+
+<body>
+  <header class="top-toolbar">
+    <nav class="nav-container">
+      <div class="nav-brand">HKH Interactive</div>
+      <ul class="nav-links">
+        <li class="dropdown">
+          <a href="#">Docs ▾</a>
+          <ul class="dropdown-content">
+            <li><a href="https://scue.hkh-interactive.com">SCUE5</a></li>
+            <li><a href="https://scue.hkh-interactive.com">MGC (C++)</a></li>
+          </ul>
+        </li>
+        <li><a href="https://thehokkaidohideout.com">Home</a></li>
+        <li><a href="https://thehokkaidohideout.com/products/">Products</a></li>
+        <li><a href="https://thehokkaidohideout.com/services/">Services</a></li>
+        <li><a href="https://thehokkaidohideout.com/contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="content" class="main-content" role="main">
+    {{ content }}
+  </main>
+
+  <!-- 💬 Floating Chat Button ONLY (iframe will be added later) -->
+  <div id="chat-launcher">💬</div>
+
+  <!-- Future container (inactive until embed solution ready) -->
+  <div id="chat-container" style="display:none;">
+    <div style="color: white; padding: 1em;">Assistant coming soon...</div>
+  </div>
+
+  <script>
+    // Mermaid rendering for diagrams
+    document.addEventListener("DOMContentLoaded", function () {
+      const blocks = document.querySelectorAll('pre > code.language-mermaid');
+      blocks.forEach((block) => {
+        const graphDefinition = block.textContent;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'mermaid-zoom-wrapper';
+
+        const container = document.createElement('div');
+        container.className = 'mermaid';
+        container.innerHTML = graphDefinition;
+
+        wrapper.appendChild(container);
+        block.parentElement.replaceWith(wrapper);
+      });
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+    });
+
+    // Floating button toggle
     const launcher = document.getElementById('chat-launcher');
     const container = document.getElementById('chat-container');
     launcher.addEventListener('click', () => {
@@ -41,53 +79,5 @@
       container.style.display = isVisible ? 'none' : 'block';
     });
   </script>
-  
-  <body>
-    <header class="top-toolbar">
-      <nav class="nav-container">
-        <div class="nav-brand">HKH Interactive</div>
-        
-        <ul class="nav-links">
-          <li class="dropdown">
-            <a href="#">Docs ▾</a>
-            <ul class="dropdown-content">
-              <li><a href="https://scue.hkh-interactive.com">SCUE5</a></li>
-              <li><a href="https://scue.hkh-interactive.com"">MGC (C++)</a></li>
-            </ul>
-          </li>
-          
-          <li><a href="https://thehokkaidohideout.com">Home</a></li>
-          <li><a href="https://thehokkaidohideout.com/products/">Products</a></li>
-          <li><a href="https://thehokkaidohideout.com/services/">Services</a></li>
-          <li><a href="https://thehokkaidohideout.com/contact/">Contact</a></li>
-        </ul>
-      </nav>
-    </header>
-    
-    <main id="content" class="main-content" role="main">
-      {{ content }}
-    </main>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const blocks = document.querySelectorAll('pre > code.language-mermaid');
-      
-        blocks.forEach((block, i) => {
-          const graphDefinition = block.textContent;
-          const wrapper = document.createElement('div');
-          wrapper.className = 'mermaid-zoom-wrapper';
-      
-          const container = document.createElement('div');
-          container.className = 'mermaid';
-          container.innerHTML = graphDefinition;
-      
-          wrapper.appendChild(container);
-          block.parentElement.replaceWith(wrapper);
-        });
-      
-        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
-      });
-    </script>
-
-  </body>
+</body>
 </html>
