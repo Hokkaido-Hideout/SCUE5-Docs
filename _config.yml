@@ -1,3 +1,3 @@
-title: HKH Docs
-remote_theme: "mmistakes/minimal-mistakes@4.27.2"
-markdown: kramdown
+title: SCUE5 Guides
+theme: jekyll-theme-cayman
+markdown: GFM
