@@ -5,7 +5,8 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script>
       mermaid.initialize({
-        startOnLoad: true,
+        startOnLoad: false,
+        securityLevel: 'loose',
         theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
       });
     </script>
@@ -46,16 +47,23 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const blocks = document.querySelectorAll('pre > code.language-mermaid');
+      
         blocks.forEach((block, i) => {
-          const parent = block.parentElement;
           const graphDefinition = block.textContent;
+          const wrapper = document.createElement('div');
+          wrapper.className = 'mermaid-zoom-wrapper';
+      
           const container = document.createElement('div');
-          container.classList.add('mermaid');
+          container.className = 'mermaid';
           container.innerHTML = graphDefinition;
-          parent.replaceWith(container);
+      
+          wrapper.appendChild(container);
+          block.parentElement.replaceWith(wrapper);
         });
+      
         mermaid.init(undefined, document.querySelectorAll('.mermaid'));
       });
     </script>
+    
   </body>
 </html>
