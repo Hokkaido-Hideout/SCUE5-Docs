@@ -43,15 +43,15 @@
         </ul>
       </nav>
     </header>
+    
+    <main id="content" class="main-content" role="main">
+      {{ content }}
+    </main>
 
     <div class="search-wrapper">
       <input type="text" id="search-box" placeholder="Search..." />
       <div id="search-results"></div>
     </div>
-    
-    <main id="content" class="main-content" role="main">
-      {{ content }}
-    </main>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
