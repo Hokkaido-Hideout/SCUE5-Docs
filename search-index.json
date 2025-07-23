@@ -1,57 +1,377 @@
 [
   {
-    "id": "features",
-    "title": "Overview",
-    "body": "SCUE5 features overview..."
+    "id": "table-of-contents",
+    "title": "🧩 Table of Contents",
+    "body": "Overview Plugin Settings Encrypted Types Code Samples Enhanced Cheat Detection System Runtime Stack Capture System Behavioral Analysis Blueprint Obfuscation Unit Test Module PE Signature Tool EULA"
   },
   {
-    "id": "scue5-settings",
-    "title": "Plugin Settings",
-    "body": "SCUE5 configs via project settings panel..."
+    "id": "features",
+    "title": "Features",
+    "body": "🔐 Encrypted variable wrappers for Bool, Int, Float, String, and more 🧠 Dual-buffer encoding and memory shifting for obfuscation 🔑 Supports global and custom encryption keys 🧾 SaveGame serialization support for all secure types 🧪 Blueprint-compatible: use secure types in visual scripting 🕵️ Built-in keyword-based process detection (Windows only) 🛡️ Designed for robust anti-cheat and anti-tamper hardening SCUE5 Settings Editable via Project Settings → Plugins → Secure-Client . | Property | Description |\n|----------|-------------|\n| KeyGeneratorPath | Path to optional external key generator |\n| IllegalKeywords | List of suspicious process names for detection |\n| IllegalProcessNames | List of suspicious process names for detection |\n| CheatSignatures | List of signatures for pre-identified cheating software |"
   },
   {
     "id": "secure-variable-types",
-    "title": "Encrypted Types",
-    "body": "SCUE5 proprietary data types..."
+    "title": "Secure Variable Types",
+    "body": "Each secure type stores encrypted values internally using Base/Shift containers . Switching occurs on access to make memory tracing harder. | Type          | Description                    |\n|---------------|--------------------------------|\n| FSafeBool | Secure boolean value           |\n| FSafeByte | Encrypted uint8                |\n| FSafeInt | Encrypted int32 with operators |\n| FSafeFloat | Encrypted float                |\n| FSafeName | Secure FName |\n| FSafeString | Encrypted FString |\n| FSafeText | Encrypted FText |\n| FSafeVector2D → Vector4D | Encrypted vectors |\n| FSafeColor | Secure FLinearColor | Common Methods . SetValue ( Input ); // Set secure value . GetValue (); // Decrypt and retrieve value . GetValue ( \"CustomKey\" ); // Use custom encryption key . SetValue ( Input ); // Set secure value . GetValue (); // Decrypt and retrieve value . GetValue ( \"CustomKey\" ); // Use custom encryption key Example FSafeInt Health ( 100 ); Health += 25 ; int32 RealHealth = Health . GetValue"
+  },
+  {
+    "id": "blueprint-integration",
+    "title": "🧪 Blueprint Integration",
+    "body": "All FSafe* types are available in Blueprints: Create and assign secure variables in Blueprint Classes Use GetValue , SetValue nodes Ideal for gameplay logic without C++"
+  },
+  {
+    "id": "custom-key-encryption",
+    "title": "🔐 Custom Key Encryption",
+    "body": "Every secure type supports a custom key-based encoding scheme. FSafeFloat Speed ( \"MySecretKey\" , 600.0f ); float RealSpeed = Speed . GetValue ( \"MySecretKey\" ); FSafeFloat Speed ( \"MySecretKey\" , 600.0f ); float RealSpeed = Speed . GetValue ( \"MySecretKey\" ); Use different keys per variable or group for added obfuscation."
+  },
+  {
+    "id": "process-keyword-detection-windows",
+    "title": "🧠 Process Keyword Detection (Windows)",
+    "body": "To detect suspicious software at runtime: Add known keywords to IllegalKeywords in project settings. Call detection manually: #if PLATFORM_WINDOWS FSCUE5_Enumerate (); #endif #if PLATFORM_WINDOWS FSCUE5_Enumerate (); #endif Scans current processes for any name that matches the provided list."
+  },
+  {
+    "id": "internal-encoding-system",
+    "title": "📜 Internal Encoding System",
+    "body": "For basic obfuscation: FString Obfuscated = FEncode ( OriginalString ); FString Recovered = FDecode ( Obfuscated ); FString Obfuscated = FEncode ( OriginalString ); FString Recovered = FDecode ( Obfuscated ); For sensitive data: FString Encrypted = SecureEncode ( OriginalString , \"SecretKey\" ); FString Decrypted = SecureDecode ( Encrypted , \"SecretKey\" ); FString Encrypted = SecureEncode ( OriginalString , \"SecretKey\" ); FString Decrypted = SecureDecode ( Encrypted , \"SecretKey\" ); For high-security scenarios: // Rotating keys based on session FString SessionKey = GenerateCipherKey ( FDateTime :: Now (). ToString ()); FString SecureData = SecureEncode ( SensitiveData , SessionKey ); // Verify before use if ( ValidateCipherText ( SecureData )) { FString Result = SecureDecode ( SecureData , SessionKey ); } // Rotating keys based on session FString SessionKey = GenerateCipherKey ( FDateTime :: Now (). ToString ()); FString SecureData = SecureEncode ( SensitiveData , SessionKey ); // Verif"
   },
   {
     "id": "usage-examples",
-    "title": "Code Samples",
-    "body": "SCUE5 native usage samples of encrypted types..."
+    "title": "Usage Examples",
+    "body": "Safe Integer Safe Integer /* :: Secured Numeral :: */ // Initialize security system (once per application) FSafeInt :: InitSecuritySystem ( TEXT ( \"GlobalSecretKey123\" )); // Create secure integers FSafeInt PlayerScore = 0 ; FSafeInt BonusPoints = 500 ; // Arithmetic operations PlayerScore += 100 ; PlayerScore *= 2 ; PlayerScore += BonusPoints ; // Comparison if ( PlayerScore > 1000 ) { UnlockAchievement (); } // Critical section PlayerScore . LockArithmetic (); ProcessHighScore (); PlayerScore . UnlockArithmetic (); // Memory protection PlayerScore . LockMemory (); /* :: Secured Numeral :: */ // Initialize security system (once per application) FSafeInt :: InitSecuritySystem ( TEXT ( \"GlobalSecretKey123\" )); // Create secure integers FSafeInt PlayerScore = 0 ; FSafeInt BonusPoints = 500 ; // Arithmetic operations PlayerScore += 100 ; PlayerScore *= 2 ; PlayerScore += BonusPoints ; // Comparison if ( PlayerScore > 1000 ) { UnlockAchievement (); } // Critical section PlayerScore . LockA"
   },
   {
-    "id": "enhanced-cheat-detection-system",
-    "title": "Enhanced Cheat Detection System",
-    "body": "SCUE5 industry level anti-cheat sentinel agent..."
+    "id": "best-practices",
+    "title": "⚠️ Best Practices",
+    "body": "| ✅ Do | ❌ Avoid |\n|------|----------|\n| Secure critical values (health, currency, ammo) | Relying on this as full anti-cheat |\n| Rotate encryption keys periodically | Storing hardcoded secrets in memory |\n| Combine with server validation | Expecting to block all attacks | This system adds significant hardening , not infallibility . This system adds significant hardening , not infallibility ."
   },
   {
-    "id": "runtime-stack-capture-system",
-    "title": "Runtime Stack Capture System",
-    "body": "SCUE5 runtime memory pattern scanner..."
+    "id": "debug-tips",
+    "title": "🔍 Debug Tips",
+    "body": "| Problem | Solution |\n|--------|----------|\n| .GetValue() returns wrong value | Check key consistency |\n| Doesn't appear in Blueprint | Recompile & restart UE5 |\n| Process detection fails | Check platform (Windows only) |"
   },
   {
-    "id": "behavioral-analysis-system",
-    "title": "Behavioral Analysis",
-    "body": "SCUE5 runtime player metrics parser..."
+    "id": "serialization-support",
+    "title": "🧱 Serialization Support",
+    "body": "All secure structs implement FArchive overloads and SaveGame compatibility. Use in saved games and replicated state."
   },
   {
-    "id": "scue5-blueprint-obfuscation",
-    "title": "Blueprint Obfuscation",
-    "body": "SCUE5 cutting-edge proprietary blueprint code obfuscator..."
+    "id": "overview-windows-only-system",
+    "title": "Overview (Windows-Only System)",
+    "body": "The SCUE5 system provides a multi-layered approach to cheat detection and prevention in Unreal Engine 5 projects. This enhanced implementation combines four complementary security mechanisms to detect and respond to cheating attempts in real-time."
   },
   {
-    "id": "scue5-unit-test-module",
-    "title": "Unit Test Module",
-    "body": "SCUE5 automated testing environment..."
+    "id": "key-features",
+    "title": "Key Features",
+    "body": "VTable Integrity Verification Monitors critical class virtual tables for unexpected modifications Memory Signature Scanning Detects known cheat patterns in game memory Process/Window Enumeration Identifies running cheat software by name and window title Memory Canary System Detects unexpected memory modifications in critical game structures"
   },
   {
-    "id": "pe-signature-extraction-tool",
-    "title": "PE Signature Tool",
-    "body": "SCUE5 proprietary cheat pattern collection tool..."
+    "id": "installation",
+    "title": "Installation",
+    "body": "Add the SCUE5 plugin to your project's Plugins/ directory Add to your ProjectName.Build.cs : PublicDependencyModuleNames . AddRange ( new string [] { \"SCUE5\" }); Enable the plugin in your project settings Add to your ProjectName.Build.cs : PublicDependencyModuleNames . AddRange ( new string [] { \"SCUE5\" }); PublicDependencyModuleNames . AddRange ( new string [] { \"SCUE5\" }); Enable the plugin in your project settings"
+  },
+  {
+    "id": "configuration",
+    "title": "Configuration",
+    "body": "Configure detection parameters in DefaultSCUE5.ini : [SCUE5_Settings] ; Process names to detect (exact match) IllegalProcessNames = \"cheatengine-x86_64.exe\" IllegalProcessNames = \"artmoney.exe\" IllegalProcessNames = \"wpepro.exe\" ; Keywords for window/process detection IllegalKeywords = \"cheat\" IllegalKeywords = \"trainer\" IllegalKeywords = \"debugger\" ; Memory signatures (hex patterns) CheatSignatures = 90 90 90 CheatSignatures = E9 00 00 00 00 [SCUE5_Settings] ; Process names to detect (exact match) IllegalProcessNames = \"cheatengine-x86_64.exe\" IllegalProcessNames = \"artmoney.exe\" IllegalProcessNames = \"wpepro.exe\" ; Keywords for window/process detection IllegalKeywords = \"cheat\" IllegalKeywords = \"trainer\" IllegalKeywords = \"debugger\" ; Memory signatures (hex patterns) CheatSignatures = 90 90 90 CheatSignatures = E9 00 00 00 00"
+  },
+  {
+    "id": "usage",
+    "title": "Usage",
+    "body": "Basic Implementation Add to your GameInstance subclass header: #include \"SCUE5.h\" UCLASS () class YOURPROJECT_API UYourGameInstance : public UGameInstance { GENERATED_BODY () virtual void Init () override ; virtual void Shutdown () override ; UPROPERTY () USafeGameInstanceSubsystem * SecuritySubsystem ; }; #include \"SCUE5.h\" UCLASS () class YOURPROJECT_API UYourGameInstance : public UGameInstance { GENERATED_BODY () virtual void Init () override ; virtual void Shutdown () override ; UPROPERTY () USafeGameInstanceSubsystem * SecuritySubsystem ; }; Implement in your GameInstance: void UYourGameInstance::Init () { Super :: Init (); // Initialize security subsystem SecuritySubsystem = GetSubsystem < USafeGameInstanceSubsystem > (); } void UYourGameInstance::Shutdown () { // Clean up security system if ( SecuritySubsystem ) SecuritySubsystem = nullptr ; Super :: Shutdown (); } void UYourGameInstance::Init () { Super :: Init (); // Initialize security subsystem SecuritySubsystem = GetSubsyst"
+  },
+  {
+    "id": "detection-mechanisms",
+    "title": "Detection Mechanisms",
+    "body": "1. VTable Integrity Checks graph TD\n    A[Initialize] --> B[Cache VTable Addresses]\n    B --> C[Periodic Verification]\n    C --> D{Valid?}\n    D -->|Yes| C\n    D -->|No| E[Trigger Security Response] Verifies critical class VTables including:\n- AActor - APlayerController - UGameInstance - USafeGameInstanceSubsystem 2. Memory Signature Scanning Scans for patterns like: // NOP sled { 0x90 , 0x90 , 0x90 } // Jump instruction { 0xE9 , 0x00 , 0x00 , 0x00 , 0x00 } // RET + NOP { 0xC3 , 0x90 } // NOP sled { 0x90 , 0x90 , 0x90 } // Jump instruction { 0xE9 , 0x00 , 0x00 , 0x00 , 0x00 } // RET + NOP { 0xC3 , 0x90 } 3. Process/Window Detection Detects 50+ known cheat tools including:\n- Cheat Engine\n- ArtMoney\n- OllyDbg\n- x64dbg\n- Process Hacker\n- Memory editors 4. Memory Canaries Configuration example: CriticalRegions . Add ({ TEXT ( \"PlayerState\" ), 0xDEADBEEF , // Start marker 0xCAFEBABE // End marker }); CriticalRegions . Add ({ TEXT ( \"PlayerState\" ), 0xDEADBEEF , // Start marker 0xCAFEBABE //"
+  },
+  {
+    "id": "customization",
+    "title": "Customization",
+    "body": "Adding New Detections New memory signatures: GetMutableDefault < USCUE5Settings > () -> CheatSignatures . Add ({ 0x12 , 0x34 , 0x56 }); GetMutableDefault < USCUE5Settings > () -> CheatSignatures . Add ({ 0x12 , 0x34 , 0x56 }); New process names: GetMutableDefault < USCUE5Settings > () -> IllegalProcessNames . Add ( TEXT ( \"new_cheat_tool.exe\" )); GetMutableDefault < USCUE5Settings > () -> IllegalProcessNames . Add ( TEXT ( \"new_cheat_tool.exe\" )); New protected memory regions: SecuritySubsystem -> AddProtectedRegion ( TEXT ( \"CustomComponent\" ), 0x11223344 , 0x55667788 ); SecuritySubsystem -> AddProtectedRegion ( TEXT ( \"CustomComponent\" ), 0x11223344 , 0x55667788 ); Adjusting Scan Frequency // In USafeGameInstanceSubsystem::Initialize GetGameInstance () -> GetTimerManager (). SetTimer ( SecurityTimerHandle , SecurityDelegate , NewInterval , // Set custom interval true ); // In USafeGameInstanceSubsystem::Initialize GetGameInstance () -> GetTimerManager (). SetTimer ( SecurityTimerHand"
+  },
+  {
+    "id": "building-the-system",
+    "title": "Building the System",
+    "body": "Compile the plugin with your project For standalone security module: # Build Key Generator cd Source/ThirdParty\ncl SCUE5_Key-Generator.cpp /EHsc /Fe:SCUE5_Key-Generator.exe # Build Key Generator cd Source/ThirdParty\ncl SCUE5_Key-Generator.cpp /EHsc /Fe:SCUE5_Key-Generator.exe"
+  },
+  {
+    "id": "limitations",
+    "title": "Limitations",
+    "body": "Windows-only implementation Requires shipping builds for full protection Memory scanning may impact performance on large games Cannot detect kernel-level cheats"
+  },
+  {
+    "id": "support",
+    "title": "Support",
+    "body": "For assistance with implementation:\n- Email: hokkaido.hideout@gmail.com\n- Discord: Support Server - Issue Tracker: Report Issues"
+  },
+  {
+    "id": "license",
+    "title": "License",
+    "body": "This system is licensed under the Unreal Engine EULA.\nCommercial use requires proper attribution."
+  },
+  {
+    "id": "overview",
+    "title": "Overview",
+    "body": "This system provides runtime security monitoring for critical Unreal Engine functions by capturing call stacks, analyzing their origins, and shutting down the game when malicious activity is detected. It specifically targets vulnerable entry points like UGameplayStatics that are common attack vectors in Unreal Engine games. graph TD\n    A[GameplayStatics Call] --> B[Security Hook Triggered]\n    B --> C[Capture Stack Trace]\n    C --> D{Analyze Call Stack}\n    D -->|Trusted| E[Execute Original Function]\n    D -->|Malicious| F[Force Game Shutdown]\n    D -->|Suspicious| G[Log & Report]\n    F --> H[Terminate Process]\n    G --> I[Update Threat Database]"
+  },
+  {
+    "id": "key-features",
+    "title": "Key Features",
+    "body": "Runtime stack tracing for calls to engine functions Module origin verification for each stack frame Memory integrity checks against known-good hashes Behavioral analysis of call patterns Emergency shutdown protocol for security violations"
+  },
+  {
+    "id": "implementation-guide",
+    "title": "Implementation Guide",
+    "body": "1. Function Hooking System Hook Installation void InstallSecurityHook ( UClass * TargetClass , FName FunctionName ) { if ( UFunction * TargetFunc = TargetClass -> FindFunctionByName ( FunctionName )) { // Store original function pointer OriginalFunctions . Add ( FunctionName , TargetFunc -> GetNativeFunc ()); // Replace with security wrapper TargetFunc -> SetNativeFunc (( FNativeFunctionPtr ) & SecurityHookWrapper ); } } void InstallSecurityHook ( UClass * TargetClass , FName FunctionName ) { if ( UFunction * TargetFunc = TargetClass -> FindFunctionByName ( FunctionName )) { // Store original function pointer OriginalFunctions . Add ( FunctionName , TargetFunc -> GetNativeFunc ()); // Replace with security wrapper TargetFunc -> SetNativeFunc (( FNativeFunctionPtr ) & SecurityHookWrapper ); } } Hook Wrapper Template template < typename ... TArgs > auto SecurityHookWrapper ( UObject * Context , FFrame & Stack , RESULT_DECL , TArgs ... Args ) { // Capture stack trace TArray < void *> Stac"
+  },
+  {
+    "id": "configuration-settings",
+    "title": "Configuration Settings",
+    "body": "Security.ini [SecuritySettings] ; Enable security hooks bEnableRuntimeProtection = true ; Modules considered safe TrustedModules = MyGame.exe, UE5-Core.dll, GameModule.dll ; Response configuration ShutdownThreshold = 3 MemoryScanInterval = 30.0 BehavioralSampleRate = 0.1 [SecuritySettings] ; Enable security hooks bEnableRuntimeProtection = true ; Modules considered safe TrustedModules = MyGame.exe, UE5-Core.dll, GameModule.dll ; Response configuration ShutdownThreshold = 3 MemoryScanInterval = 30.0 BehavioralSampleRate = 0.1"
+  },
+  {
+    "id": "threat-detection-matrix",
+    "title": "Threat Detection Matrix",
+    "body": "| Threat Type | Detection Method | Response |\n|-------------|------------------|----------|\n| DLL Injection | Untrusted module in call stack | Immediate shutdown |\n| Code Cave Execution | Address outside module boundaries | Shutdown + forensic capture |\n| Function Hooking | Memory checksum mismatch | Feature disablement |\n| Call Flooding | Frequency threshold exceeded | Temporary lockout |\n| Thread Hijacking | Invalid thread context | Thread termination |\n| Return Address Spoofing | Stack frame inconsistency | Stack validation failure |"
+  },
+  {
+    "id": "integration-guide",
+    "title": "Integration Guide",
+    "body": "Initialization Sequence Pre-engine initialization : Load security configs Post-engine init : Install function hooks Begin play : Start monitoring threads Runtime : Periodic security scans Shutdown : Secure telemetry upload Recommended Hook Points // GameInstance.cpp void UMyGameInstance::OnStart () { Super :: OnStart (); FSecuritySystem :: Get (). Initialize (); // Critical hooks InstallSecurityHook ( UGameplayStatics :: StaticClass (), \"OpenLevel\" ); InstallSecurityHook ( UGameplayStatics :: StaticClass (), \"ExecuteConsoleCommand\" ); InstallSecurityHook ( UGameplayStatics :: StaticClass (), \"SpawnObject\" ); InstallSecurityHook ( UGameplayStatics :: StaticClass (), \"LoadAsset\" ); } // GameInstance.cpp void UMyGameInstance::OnStart () { Super :: OnStart (); FSecuritySystem :: Get (). Initialize (); // Critical hooks InstallSecurityHook ( UGameplayStatics :: StaticClass (), \"OpenLevel\" ); InstallSecurityHook ( UGameplayStatics :: StaticClass (), \"ExecuteConsoleCommand\" ); InstallSecurity"
+  },
+  {
+    "id": "limitations-and-mitigations",
+    "title": "Limitations and Mitigations",
+    "body": "| Limitation | Mitigation Strategy |\n|------------|---------------------|\n| Performance overhead | Sampling mode for non-critical functions |\n| False positives | Extensive allow-listing + machine learning |\n| Kernel-level attacks | Integration with anti-cheat services |\n| Reverse engineering | Code obfuscation + integrity checks |\n| Hook detection | Polymorphic hook installation |\n| Memory scanning evasion | Multiple scan techniques + entropy analysis |"
+  },
+  {
+    "id": "best-practices",
+    "title": "Best Practices",
+    "body": "Combine with server-side validation for critical actions Use encrypted communications for security telemetry Implement gradual responses before full shutdown Regularly update trusted modules list Obfuscate security system entry points Perform monthly penetration testing Maintain allow/block lists in cloud-configurable storage Warning : This system should be part of a multi-layered security strategy. Always combine with commercial anti-cheat solutions for production games. Warning : This system should be part of a multi-layered security strategy. Always combine with commercial anti-cheat solutions for production games. Runtime hooks intercept function calls at execution time, allowing you to:\n1. Inspect call parameters and context\n2. Modify behavior before/after execution\n3. Add security checks and monitoring\n4. Capture execution context (stack traces, threads, etc.) In Unreal Engine, we hook UFunction s by replacing their native function pointers while preserving original functionality"
+  },
+  {
+    "id": "implementation-hooking-blueprintcallable-functions-in-ugameplaystatics",
+    "title": "Implementation: Hooking BlueprintCallable Functions in UGameplayStatics",
+    "body": "SecuritySystem.cpp void FSecuritySystem::InstallHooks () { UClass * GameplayStaticsClass = UGameplayStatics :: StaticClass (); // Iterate through all functions in UGameplayStatics for ( TFieldIterator < UFunction > FuncIt ( GameplayStaticsClass , EFieldIteratorFlags :: IncludeSuper ); FuncIt ; ++ FuncIt ) { UFunction * Function = * FuncIt ; // Hook only BlueprintCallable functions if ( Function -> HasAnyFunctionFlags ( FUNC_BlueprintCallable )) { InstallHook ( Function ); } } } void FSecuritySystem::InstallHooks () { UClass * GameplayStaticsClass = UGameplayStatics :: StaticClass (); // Iterate through all functions in UGameplayStatics for ( TFieldIterator < UFunction > FuncIt ( GameplayStaticsClass , EFieldIteratorFlags :: IncludeSuper ); FuncIt ; ++ FuncIt ) { UFunction * Function = * FuncIt ; // Hook only BlueprintCallable functions if ( Function -> HasAnyFunctionFlags ( FUNC_BlueprintCallable )) { InstallHook ( Function ); } } }"
+  },
+  {
+    "id": "integration",
+    "title": "Integration",
+    "body": "GameInstance.cpp #include \"SecuritySystem.h\" void UMyGameInstance::OnStart () { Super :: OnStart (); // Initialize security system FSecuritySystem :: Initialize (); } void UMyGameInstance::Shutdown () { FSecuritySystem :: Shutdown (); Super :: Shutdown (); } #include \"SecuritySystem.h\" void UMyGameInstance::OnStart () { Super :: OnStart (); // Initialize security system FSecuritySystem :: Initialize (); } void UMyGameInstance::Shutdown () { FSecuritySystem :: Shutdown (); Super :: Shutdown (); }"
+  },
+  {
+    "id": "key-components",
+    "title": "Key Components",
+    "body": "1. Function Hook Installation graph TD\n    A[Start] --> B[Iterate UGameplayStatics functions]\n    B --> C{BlueprintCallable?}\n    C -->|Yes| D[Store original function pointer]\n    D --> E[Replace with security wrapper]\n    C -->|No| F[Skip function]\n    E --> G[Add to hooked set]\n    F --> H[Continue iteration]\n    G --> H\n    H --> I{More functions?}\n    I -->|Yes| B\n    I -->|No| J[End] 2. Hook Execution Flow void SecurityHookWrapper (...) { // 1. Capture stack trace immediately // 2. Analyze stack for untrusted modules // 3. If suspicious: emergency shutdown // 4. If clean: execute original function } void SecurityHookWrapper (...) { // 1. Capture stack trace immediately // 2. Analyze stack for untrusted modules // 3. If suspicious: emergency shutdown // 4. If clean: execute original function } 3. Stack Analysis graph LR\n    A[Raw Stack Frames] --> B[Extract Module Names]\n    B --> C[Filter Trusted Modules]\n    C --> D{Untrusted Module Found?}\n    D -->|Yes| E[Trigger Security Proto"
+  },
+  {
+    "id": "advanced-techniques",
+    "title": "Advanced Techniques",
+    "body": "Dynamic Trust Management void UpdateTrustedModules () { TArray < FString > NewTrusted ; // 1. Check code signatures for ( auto & Module : LoadedModules ) { if ( VerifyDigitalSignature ( Module )) NewTrusted . Add ( Module ); } // 2. Add whitelisted plugins NewTrusted . Append ( GetApprovedPlugins ()); // 3. Update security system FSecuritySystem :: UpdateTrustedModules ( NewTrusted ); } void UpdateTrustedModules () { TArray < FString > NewTrusted ; // 1. Check code signatures for ( auto & Module : LoadedModules ) { if ( VerifyDigitalSignature ( Module )) NewTrusted . Add ( Module ); } // 2. Add whitelisted plugins NewTrusted . Append ( GetApprovedPlugins ()); // 3. Update security system FSecuritySystem :: UpdateTrustedModules ( NewTrusted ); } Performance Optimization // Rate-limited stack capture static FDateTime LastCapture ; void SecurityHookWrapper (...) { if (( FDateTime :: Now () - LastCapture ). GetSeconds () < Config . StackCaptureFrequency ) { // Skip security check this time"
+  },
+  {
+    "id": "security-considerations",
+    "title": "Security Considerations",
+    "body": "graph TD\n    A[Game Client] -->|Telemetry| B(Security Dashboard)\n    B --> C[Real-time Alerts]\n    B --> D[Incident Reports]\n    B --> E[Player Reputation]\n    B --> F[Threat Intelligence]\n    C --> G[Auto Mitigation]\n    D --> H[Manual Review]\n    E --> I[Matchmaking]\n    F --> J[Rule Updates] Hook Protection : Encrypt function pointers Validate hook integrity periodically Use guard pages around critical functions Anti-Tampering : void ValidateHooks () { for ( auto & Elem : OriginalFunctions ) { UFunction * Func = UGameplayStatics :: StaticClass () -> FindFunctionByName ( Elem . Key ); if ( Func -> GetNativeFunc () != & SecurityHookWrapper ) { // Hook tampering detected! EmergencyShutdown (); } } } Stealth Techniques : Randomize hook installation order Use JMP trampolines instead of direct replacements Hide security module from process enumeration Hook Protection : Encrypt function pointers Validate hook integrity periodically Use guard pages around critical functions Anti-Tampering :"
+  },
+  {
+    "id": "limitations-and-workarounds",
+    "title": "Limitations and Workarounds",
+    "body": "| Limitation | Mitigation Strategy |\n|----------------|-------------------------|\n| Inlined functions | Disable optimizations for critical functions |\n| Async function calls | Thread-specific stack validation |\n| Engine updates breaking hooks | Version-specific hook tables |\n| False positives | Machine learning anomaly detection |\n| Performance overhead | Selective sampling and rate limiting | This implementation provides a robust foundation for securing vulnerable entry points in Unreal Engine. For production use, integrate with kernel-level anti-cheat solutions and server-side validation for comprehensive protection."
+  },
+  {
+    "id": "overview",
+    "title": "Overview",
+    "body": "The Behavioral Analysis System is a server-side anti-cheat component integrated into Unreal Engine's RPC validation framework. It analyzes player actions in real-time during WithValidation RPC calls to detect cheating patterns while minimizing false positives. The system operates entirely server-side with zero client impact. Although the bulk of behavioral analysis is implemented and shipped by default, it's advisable to dedicate extra engineering work to this system to make it better fit the project tightly, while at the same time leveraging all the other layers of defense measures already implemented by SCUE5. Although the bulk of behavioral analysis is implemented and shipped by default, it's advisable to dedicate extra engineering work to this system to make it better fit the project tightly, while at the same time leveraging all the other layers of defense measures already implemented by SCUE5."
+  },
+  {
+    "id": "key-principles",
+    "title": "Key Principles",
+    "body": "Server-Side Execution : All analysis runs on game servers Tiered Validation : Lightweight → Medium → Deep analysis Context-Aware Detection : Game state and player history inform decisions Performance-Critical : Average processing time < 0.15ms per RPC Adaptive Thresholds : Adjusts based on player profile and accessibility settings"
+  },
+  {
+    "id": "analysis-modules",
+    "title": "Analysis Modules",
+    "body": "1. Input Anomalies Detection Identifies unnatural input patterns suggesting automation:\n- Impossible Turn Speeds : Angular velocity exceeding human capability thresholds\n- Machine-Like Precision : Unnaturally consistent input patterns over time\n- Robotic Timing : Key press intervals with near-zero deviation\n- Signature Analysis : Input waveform consistency during complex actions 2. Temporal Pattern Analysis Detects unnatural timing in player actions:\n- Sub-Human Reactions : Responses to unseen events faster than 100ms\n- Robotic Rhythm : Actions performed with machine-like periodicity\n- Stress Response Analysis : Timing consistency during high-pressure situations\n- Human Variability Checks : Detection of unnaturally consistent decision intervals 3. Spatial Violation Checks Validates movement physics and environmental interactions:\n- Teleportation Detection : Position changes exceeding physical limits\n- Collision Exploit Identification : Repeated boundary violations\n- Impossible Movement"
+  },
+  {
+    "id": "tiered-validation-system",
+    "title": "Tiered Validation System",
+    "body": "| Tier | Analysis Depth | Execution Time | Target Players | Activation Criteria |\n|------|----------------|----------------|----------------|---------------------|\n| 1 | Lightweight | < 0.1ms | All players | Every RPC call |\n| 2 | Medium | 0.1-0.3ms | New/Medium-risk | 15% random sampling |\n| 3 | Deep | 0.3-1.5ms | High-risk | Risk score > 70 or critical moments | Activation Flow :\n1. All RPCs undergo Tier 1 validation\n2. Tier 2 activates based on risk score and random sampling\n3. Tier 3 triggers for confirmed suspicious behavior\n4. Critical gameplay moments force Tier 3 validation"
+  },
+  {
+    "id": "false-positive-mitigation",
+    "title": "False Positive Mitigation",
+    "body": "Adaptive Baselines Player Profiling : Skill-based thresholds adjusted over 10+ matches Accessibility Presets : Modified thresholds for players with disabilities Regional Adjustments : Latency allowances based on geographic location Hardware Profiles : Input expectations based on reported peripherals Verification Protocol Initial Detection : Single suspicious event flagged Confirmation Phase : 3 consecutive violations required Replay Verification : Match replay analysis for borderline cases Manual Review : Escalation to security team for final decision Contextual Whitelisting Game Modes : Different thresholds for casual vs. competitive Character Abilities : Legitimate skill-based exceptions Map Knowledge : Accounting for experienced player routing Team Coordination : Allowing for callout-based reactions"
+  },
+  {
+    "id": "performance-optimization",
+    "title": "Performance Optimization",
+    "body": "Data Collection Lightweight Snapshots : 16-byte input/movement packets History Buffers : 32-frame rolling windows for temporal analysis Approximated Metrics : Fast statistical calculations Spatial Hashing : Efficient collision detection Processing Techniques Branch Prediction : Ordered condition checks for CPU efficiency Memory Packing : Cache-friendly data structures SIMD Operations : Parallel processing of vector calculations Asynchronous Validation : Heavy checks on dedicated threads Resource Management Load-Based Throttling : Reduced sampling during server stress Result Caching : Reusing recent validation outcomes Priority Scheduling : Critical RPCs (combat actions) first Distributed Processing : Offloading to security subcluster"
+  },
+  {
+    "id": "integration-points",
+    "title": "Integration Points",
+    "body": "Security Correlation Memory Scanner : Triggers deep validation on pattern detection Network Monitor : Combines behavioral flags with packet anomalies Process Analyzer : Correlates with suspicious system activity Player Reporting : Prioritizes analysis of frequently reported players Game Systems Match Replay : Post-match verification of flagged events Player Progression : Skill tracking for baseline adaptation Tournament Mode : Stricter validation thresholds New Player Onboarding : Enhanced monitoring during first 5 matches"
+  },
+  {
+    "id": "threshold-configuration",
+    "title": "Threshold Configuration",
+    "body": "Key tunable parameters (via AntiCheat.ini): [BehavioralAnalysis] ; Input anomalies ImpossibleTurnThreshold = 25.0 ; Radians/sec PerfectConsistencyThreshold = 0.97 ; 0-1 scale ; Temporal patterns HumanReactionMinimum = 0.1 ; Seconds RoboticTimingDeviation = 0.005 ; Spatial validation TeleportDistanceThreshold = 1000 ; Unreal units CollisionViolationRate = 0.3 ; 30% violation threshold ; Combat analysis HeadshotRatioSuspect = 0.85 ; 85% RecoilControlThreshold = 0.98 ; 98% efficiency ; Statistical SkillSpikeThreshold = 3.5 ; Standard deviations WinRateAnomalyMultiplier = 1.5 [BehavioralAnalysis] ; Input anomalies ImpossibleTurnThreshold = 25.0 ; Radians/sec PerfectConsistencyThreshold = 0.97 ; 0-1 scale ; Temporal patterns HumanReactionMinimum = 0.1 ; Seconds RoboticTimingDeviation = 0.005 ; Spatial validation TeleportDistanceThreshold = 1000 ; Unreal units CollisionViolationRate = 0.3 ; 30% violation threshold ; Combat analysis HeadshotRatioSuspect = 0.85 ; 85% RecoilControlThreshold = 0"
+  },
+  {
+    "id": "monitoring-reporting",
+    "title": "Monitoring & Reporting",
+    "body": "Detection Events | Event Code | Severity | Description | Auto-Action |\n|-----------|----------|-------------|-------------|\n| IMPOSSIBLE_TURN | Critical | Physics-defying rotation | Kick after 3 |\n| MACHINE_PRECISION | High | Robotic input consistency | Kick after 5 |\n| SUPERHUMAN_REACTIONS | High | Consistent sub-100ms reactions | Verify then kick |\n| POSITION_TELEPORT | Critical | Impossible movement | Immediate kick |\n| AIMBOT_SUSPECT | High | Impossible accuracy | Verify then kick | Reporting Workflow Server-Side Logging : Compact binary format with key metrics Security Dashboard : Real-time visualization of detections Player Case Files : Longitudinal behavior profiles Cheat Signature Extraction : Pattern aggregation across offenders Threshold Calibration : Automatic parameter tuning based on results"
+  },
+  {
+    "id": "maintenance-tuning",
+    "title": "Maintenance & Tuning",
+    "body": "Calibration Cycle Data Collection : 2-week observation period Threshold Adjustment : Percentile-based tuning A/B Testing : Validation in controlled environments Live Deployment : Region-by-region rollout Update Strategy Bi-Weekly Tuning : Based on latest cheat patterns Emergency Patches : For critical exploit detection Seasonal Overhauls : Major rebalancing with game updates Meta Adaptation : Shifting focus to prevalent cheat types"
+  },
+  {
+    "id": "conclusion",
+    "title": "Conclusion",
+    "body": "The Behavioral Analysis System provides a multi-layered defense against cheating by combining real-time forensic analysis with adaptive player profiling. Its server-side implementation ensures zero impact on legitimate players while maintaining the integrity of competitive gameplay through physics-based validation, statistical anomaly detection, and contextual verification. The tiered approach balances security with performance, making it suitable for large-scale deployment across diverse game modes and player skill levels."
+  },
+  {
+    "id": "overview",
+    "title": "Overview",
+    "body": "The SCUE5 Blueprint Obfuscation System is a revolutionary security solution that automatically protects your Unreal Engine 5.5 projects against reverse engineering and cheating. By transforming blueprint assets into a complex, difficult-to-analyze format, it significantly increases the effort required to develop cheating software while maintaining 100% runtime functionality. The system is fully automated - just enable it and let SCUE5 handle the rest!"
+  },
+  {
+    "id": "key-features",
+    "title": "Key Features",
+    "body": "One-Click Activation : Single boolean toggle enables complete protection Zero Configuration : Works out-of-the-box with intelligent defaults Comprehensive Protection : Multi-layer obfuscation techniques UE5.5 Optimized : Built specifically for latest Unreal Engine version Performance Safe : Minimal runtime overhead (avg. < 2% CPU impact) Automated Workflow : Integrated directly into UE's asset processing pipeline"
+  },
+  {
+    "id": "getting-started",
+    "title": "Getting Started",
+    "body": "Activation Enable protection in Project Settings → SCUE5 → Security : [SCUE5] EnableBlueprintObfuscation = True [SCUE5] EnableBlueprintObfuscation = True How It Works sequenceDiagram\n    Editor->>SCUE5: Asset Added Event\n    SCUE5->>Blueprint: ShouldObfuscateBlueprint?\n    Blueprint-->>SCUE5: Eligibility Status\n    alt Eligible\n        SCUE5->>Blueprint: Apply Obfuscation\n        SCUE5->>Editor: Return Protected Asset\n    else Excluded\n        SCUE5->>Editor: Return Original Asset\n    end"
+  },
+  {
+    "id": "automatic-exclusion-system",
+    "title": "Automatic Exclusion System",
+    "body": "The intelligent ShouldObfuscateBlueprint function prevents unwanted processing of special blueprints: bool ShouldObfuscateBlueprint ( UBlueprint * Blueprint ) { // Skip transient and development blueprints if ( Blueprint -> HasAnyFlags ( RF_Transient )) return false ; if ( Blueprint -> GetName (). StartsWith ( TEXT ( \"DEV_\" ))) return false ; // Skip UI and Core system blueprints const FString Path = Blueprint -> GetPathName (); if ( Path . Contains ( TEXT ( \"/UI/\" ))) return false ; if ( Path . Contains ( TEXT ( \"/Core/\" ))) return false ; // Exclude blueprints with special marker if ( Blueprint -> GetName (). Contains ( \"NoBPO\" )) return false ; // Honor global setting return Settings -> EnableBlueprintObfuscation ; } bool ShouldObfuscateBlueprint ( UBlueprint * Blueprint ) { // Skip transient and development blueprints if ( Blueprint -> HasAnyFlags ( RF_Transient )) return false ; if ( Blueprint -> GetName (). StartsWith ( TEXT ( \"DEV_\" ))) return false ; // Skip UI and Core system "
+  },
+  {
+    "id": "obfuscation-techniques",
+    "title": "Obfuscation Techniques",
+    "body": "1. Identifier Mangling graph LR\n    A[Original Name] --> B[Hash Function]\n    B --> C[Obfuscated Name] Variables : PlayerHealth → V_8A3D9B Functions : CalculateDamage → F_FF42C6 Nodes : Set Player Location → N_5E7A1D 2. Structural Randomization graph TB\n    A[Original Layout] --> B[Position Scrambling]\n    A --> C[Pin Rearrangement]\n    A --> D[Junk Node Injection] Nodes placed at random coordinates (-500000 to +500000) Logical pins shuffled unpredictably Non-functional nodes added to confuse analysis 3. Data Protection | Data Type | Protection Method | Example |\n|---------------|------------------------|-------------|\n| Strings | AES-256-CBC Encryption | \"Secret\" → \"kXQ...WzA==\" |\n| Integers | Arithmetic Obfuscation | 100 → (123 ^ 0x45F) + 22 |\n| Floats | Mathematical Transform | 1.5 → (3.8 * 0.3947) | 4. Metadata Stripping Removes all reverse-engineering aids:\n- Tooltips and comments\n- Node descriptions\n- Category information\n- Development-only metadata"
+  },
+  {
+    "id": "performance-impact",
+    "title": "Performance Impact",
+    "body": "| Scenario | CPU Impact | Memory Impact | Load Time Impact |\n|--------------|----------------|-------------------|----------------------|\n| Editor Processing | +5-15ms per blueprint | Temporary +5-10MB | None |\n| Runtime Execution | < 0.5ms per call | +0.5MB | +1-3% |\n| Package Size | +0.3-1.5MB | N/A | N/A | Note: Impact scales with blueprint complexity - simple blueprints see minimal effect"
+  },
+  {
+    "id": "best-practices",
+    "title": "Best Practices",
+    "body": "Recommended Usage pie\n    title Obfuscation Targets\n    \"Gameplay Systems\" : 45\n    \"AI Behavior\" : 25\n    \"Economy Logic\" : 20\n    \"Progression Systems\" : 10 Optimization Tips Use NoBPO suffix for performance-critical blueprints Keep complex logic in C++ when possible Use development prefix ( DEV_ ) for debugging tools Place UI blueprints in /UI/ folder Put core systems in /Core/ folder"
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Troubleshooting",
+    "body": "Common Issues | Symptom | Solution |\n|-------------|--------------|\n| Blueprint fails to compile | Check for unsupported nodes |\n| Strings appear garbled | Verify helper class inclusion |\n| Performance degradation | Exclude non-critical assets |\n| Editor slowdown | Disable during development |"
+  },
+  {
+    "id": "security-recommendations",
+    "title": "Security Recommendations",
+    "body": "Combine with SCUE5 Core: graph LR\n  A[BP Obfuscation] --> B[Memory Protection]\n  A --> C[Behavior Analysis]\n  B --> D[Complete Security]\n  C --> D Rotate Encryption Keys: ; Change quarterly [SCUE5.Advanced] EncryptionKeyVersion = 2 Verify Integrity: void CheckTampering () { if ( Checksum ( Blueprint ) != ExpectedValue ) SCUE5 :: ReportSecurityIncident (); } Combine with SCUE5 Core: graph LR\n  A[BP Obfuscation] --> B[Memory Protection]\n  A --> C[Behavior Analysis]\n  B --> D[Complete Security]\n  C --> D Rotate Encryption Keys: ; Change quarterly [SCUE5.Advanced] EncryptionKeyVersion = 2 ; Change quarterly [SCUE5.Advanced] EncryptionKeyVersion = 2 Verify Integrity: void CheckTampering () { if ( Checksum ( Blueprint ) != ExpectedValue ) SCUE5 :: ReportSecurityIncident (); } void CheckTampering () { if ( Checksum ( Blueprint ) != ExpectedValue ) SCUE5 :: ReportSecurityIncident (); }"
+  },
+  {
+    "id": "conclusion",
+    "title": "Conclusion",
+    "body": "The SCUE5 Blueprint Obfuscation System provides enterprise-grade security with zero configuration overhead. By simply enabling EnableBlueprintObfuscation in your project settings, you automatically gain: ✅ Protection against blueprint extraction ✅ Resistance to cheat development ✅ Preservation of runtime performance ✅ Compatibility with UE5.5 workflows ✅ Intelligent automatic exclusions \"In our tests, the obfuscation system increased reverse engineering time by 300-500% while maintaining 100% gameplay functionality. The automated exclusion system eliminated the need for manual configuration in 90% of projects.\" - SCUE5 Security Team \"In our tests, the obfuscation system increased reverse engineering time by 300-500% while maintaining 100% gameplay functionality. The automated exclusion system eliminated the need for manual configuration in 90% of projects.\" - SCUE5 Security Team"
+  },
+  {
+    "id": "overview",
+    "title": "Overview ",
+    "body": "The SCUE5 Unit Test Module provides a comprehensive suite for stress testing and validating the Enhanced Cheat Detection System. This module simulates various cheating scenarios and verifies the system's detection capabilities under different conditions. Key features:\n- Validates all security layers (VTable, memory, processes, canaries)\n- Simulates real-world cheating tools and techniques\n- Measures performance under heavy load\n- Tests multi-threaded scenarios\n- Provides detailed performance metrics"
+  },
+  {
+    "id": "setup-instructions",
+    "title": "Setup Instructions ",
+    "body": "1. Add Test Module to Project Add the following to your ProjectName.Build.cs : PublicDependencyModuleNames . AddRange ( new string [] { \"SCUE5Developer\" , \"AutomationTest\" }); PublicDependencyModuleNames . AddRange ( new string [] { \"SCUE5Developer\" , \"AutomationTest\" }); 2. Configure Test Directory Create Source/SCUE5Developer/ directory with:\n- SCUE5_Tests.h - SCUE5_Tests.cpp 3. Enable Automation Testing In DefaultEngine.ini : [AutomationTesting] +FilterPluginTests = SCUE5 [AutomationTesting] +FilterPluginTests = SCUE5 4. Build Configuration Add to SCUE5.Target.cs : ExtraModuleNames . Add ( \"SCUE5Developer\" ); ExtraModuleNames . Add ( \"SCUE5Developer\" ); 5. Plugin Dependencies Add to SCUE5.uplugin : \"Modules\" : [ { \"Name\" : \"SCUE5Developer\" , \"Type\" : \"Developer\" , \"LoadingPhase\" : \"PostConfigInit\" } ] \"Modules\" : [ { \"Name\" : \"SCUE5Developer\" , \"Type\" : \"Developer\" , \"LoadingPhase\" : \"PostConfigInit\" } ]"
+  },
+  {
+    "id": "running-tests",
+    "title": "Running Tests ",
+    "body": "In Unreal Editor Open Session Frontend (Window → Developer Tools → Session Frontend) Navigate to Automation tab Expand SCUE5.Security category Select desired tests Click Start Tests  Command Line # Run all SCUE5 tests UE4Editor-Cmd.exe ProjectName -buildmachine -stdout -unattended -nopause -NullRHI -ExecCmds = \"Automation RunTests SCUE5.Security\" -testexit = \"Automation Test Queue Empty\" # Run specific test UE4Editor-Cmd.exe ProjectName -buildmachine -stdout -unattended -nopause -NullRHI -ExecCmds = \"Automation RunTest SCUE5.Security.VTableIntegrity\" -testexit = \"Automation Test Queue Empty\" # Run all SCUE5 tests UE4Editor-Cmd.exe ProjectName -buildmachine -stdout -unattended -nopause -NullRHI -ExecCmds = \"Automation RunTests SCUE5.Security\" -testexit = \"Automation Test Queue Empty\" # Run specific test UE4Editor-Cmd.exe ProjectName -buildmachine -stdout -unattended -nopause -NullRHI -ExecCmds = \"Automation RunTest SCUE5.Security.VTableIntegrity\" -testexit = \"Automation Test Queue Empty"
+  },
+  {
+    "id": "test-descriptions",
+    "title": "Test Descriptions ",
+    "body": "1. VTable Integrity Test ( SCUE5.Security.VTableIntegrity ) Purpose : Verifies detection of tampered virtual tables Method : Creates test actor Temporarily replaces VTable pointer Runs security scan Verifies tampering is detected Metrics : Detection accuracy, false positives Creates test actor Temporarily replaces VTable pointer Runs security scan Verifies tampering is detected 2. Memory Signature Test ( SCUE5.Security.MemorySignature ) Purpose : Validates memory pattern detection Method : Allocates memory with detectable pattern Runs signature scan Verifies detection Patterns Tested : NOP sled ( 90 90 90 ) Jump instructions ( E9 00 00 00 00 ) Custom patterns Allocates memory with detectable pattern Runs signature scan Verifies detection NOP sled ( 90 90 90 ) Jump instructions ( E9 00 00 00 00 ) Custom patterns 3. Process Detection Test ( SCUE5.Security.ProcessDetection ) Purpose : Confirms cheat process identification Method : Simulates cheat tools (CheatEngine, ArtMoney, etc.) Runs p"
+  },
+  {
+    "id": "customization",
+    "title": "Customization ",
+    "body": "Adjust Test Parameters Modify SCUE5_Tests.cpp constants: // Default values constexpr int32 STRESS_TEST_ITERATIONS = 1000 ; constexpr int32 THREAD_COUNT = 8 ; constexpr float TEST_TIMEOUT = 60.0f ; // Default values constexpr int32 STRESS_TEST_ITERATIONS = 1000 ; constexpr int32 THREAD_COUNT = 8 ; constexpr float TEST_TIMEOUT = 60.0f ; Add New Test Patterns // In FSCUE5_SignatureTest Bytes [ 10 ] = 0xAA ; // New pattern byte 1 Bytes [ 11 ] = 0xBB ; // New pattern byte 2 Bytes [ 12 ] = 0xCC ; // New pattern byte 3 // In FSCUE5_SignatureTest Bytes [ 10 ] = 0xAA ; // New pattern byte 1 Bytes [ 11 ] = 0xBB ; // New pattern byte 2 Bytes [ 12 ] = 0xCC ; // New pattern byte 3 Simulate Additional Cheat Tools // In FSCUE5_ProcessDetectionTest SimulatedCheats . Add ( new FCheatToolSimulator ( \"NewCheatTool\" )); SimulatedCheats . Add ( new FCheatToolSimulator ( \"AnotherCheat\" )); // In FSCUE5_ProcessDetectionTest SimulatedCheats . Add ( new FCheatToolSimulator ( \"NewCheatTool\" )); SimulatedCheats "
+  },
+  {
+    "id": "interpreting-results",
+    "title": "Interpreting Results ",
+    "body": "Test Statuses | Status | Description |\n|--------|-------------|\n| Passed | All validations succeeded |\n| Failed | One or more assertions failed |\n| Warning | Performance below expectations |\n| Not Run | Test skipped due to dependencies | Performance Metrics [SCUE5.Security.StressTest]\nCompleted 1000 scans in 8.42 seconds (Avg: 8.42 ms/scan)\nMemory delta: +12.4 MB [SCUE5.Security.StressTest]\nCompleted 1000 scans in 8.42 seconds (Avg: 8.42 ms/scan)\nMemory delta: +12.4 MB Critical Failures [SCUE5.Security.VTableIntegrity]\nError: Expected tampering to be detected (false negative) [SCUE5.Security.VTableIntegrity]\nError: Expected tampering to be detected (false negative) Performance Thresholds | Test | Maximum Duration | Max Memory Increase |\n|------|------------------|---------------------|\n| StressTest (1000) | 10 seconds | 50 MB |\n| ConcurrencyTest | 30 seconds | 100 MB |\n| Single Scan | 15 ms | 1 MB |"
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Troubleshooting ",
+    "body": "Common Issues Tests not appearing : Verify module is included in build Check DefaultEngine.ini automation filters Ensure project rebuilt successfully False positives : Review test timing (add delays where necessary) Verify simulated cheat tools are properly created Check system-specific behavior Performance issues : Reduce stress test iterations during development Disable memory-intensive tests on low-spec machines Optimize scan algorithms Tests not appearing : Verify module is included in build Check DefaultEngine.ini automation filters Ensure project rebuilt successfully False positives : Review test timing (add delays where necessary) Verify simulated cheat tools are properly created Check system-specific behavior Performance issues : Reduce stress test iterations during development Disable memory-intensive tests on low-spec machines Optimize scan algorithms Debugging Tips Enable verbose logging: [AutomationTesting] LogAutomationTests = True [AutomationTesting] LogAutomationTests = "
+  },
+  {
+    "id": "overview",
+    "title": "Overview",
+    "body": "This tool allows you to extract unique byte signatures from executable files (.exe, .dll, .sys) for integration with our anti-cheat system. The extracted signatures are formatted for direct use with the FCheatSignature struct in Unreal Engine. Tool Location : ThirdParty/PE_CheatSignature_Extractor_Tool.py"
+  },
+  {
+    "id": "prerequisites",
+    "title": "Prerequisites",
+    "body": "Python 3.6+ pefile library (install via pip) pip install pefile pip install pefile"
+  },
+  {
+    "id": "basic-usage",
+    "title": "Basic Usage",
+    "body": "Analyze a Single File python PE_CheatSignature_Extractor_Tool.py \"path/to/cheat.dll\" python PE_CheatSignature_Extractor_Tool.py \"path/to/cheat.dll\" Analyze a Directory python PE_CheatSignature_Extractor_Tool.py \"path/to/cheat_folder\" python PE_CheatSignature_Extractor_Tool.py \"path/to/cheat_folder\" Custom Pattern Length # Set min 20 bytes, max 40 bytes python PE_CheatSignature_Extractor_Tool.py \"cheat.exe\" --min-len 20 --max-len 40 # Set min 20 bytes, max 40 bytes python PE_CheatSignature_Extractor_Tool.py \"cheat.exe\" --min-len 20 --max-len 40 Analyze All Sections (not just code) python PE_CheatSignature_Extractor_Tool.py \"cheat.dll\" --all-sections python PE_CheatSignature_Extractor_Tool.py \"cheat.dll\" --all-sections"
+  },
+  {
+    "id": "understanding-the-output",
+    "title": "Understanding the Output",
+    "body": "The tool outputs signatures in the exact format required by the FCheatSignature struct: // Copy these signatures to your CheatSignatures array: // TArray<FCheatSignature> CheatSignatures = { // Signatures from aimbot.dll (Section 0): { 0x48 , 0x8b , 0xc4 , 0x48 , 0x89 , 0x58 }, { 0x40 , 0x53 , 0x48 , 0x83 , 0xec , 0x20 }, // Signatures from wallhack.exe (Section 1): { 0x48 , 0x89 , 0x5c , 0x24 , 0x08 , 0x57 }, { 0x48 , 0x83 , 0xec , 0x20 , 0x48 , 0x8b }, // }; // End of signatures // Copy these signatures to your CheatSignatures array: // TArray<FCheatSignature> CheatSignatures = { // Signatures from aimbot.dll (Section 0): { 0x48 , 0x8b , 0xc4 , 0x48 , 0x89 , 0x58 }, { 0x40 , 0x53 , 0x48 , 0x83 , 0xec , 0x20 }, // Signatures from wallhack.exe (Section 1): { 0x48 , 0x89 , 0x5c , 0x24 , 0x08 , 0x57 }, { 0x48 , 0x83 , 0xec , 0x20 , 0x48 , 0x8b }, // }; // End of signatures"
+  },
+  {
+    "id": "integration-with-anti-cheat-system",
+    "title": "Integration with Anti-Cheat System",
+    "body": "Copy the output signatures Paste them into your CheatSignatures array: // AntiCheatManager.h TArray < FCheatSignature > CheatSignatures = { // Paste extracted signatures here { 0x48 , 0x8b , 0xc4 , 0x48 , 0x89 , 0x58 }, { 0x40 , 0x53 , 0x48 , 0x83 , 0xec , 0x20 }, // ... other signatures }; // AntiCheatManager.h TArray < FCheatSignature > CheatSignatures = { // Paste extracted signatures here { 0x48 , 0x8b , 0xc4 , 0x48 , 0x89 , 0x58 }, { 0x40 , 0x53 , 0x48 , 0x83 , 0xec , 0x20 }, // ... other signatures };"
+  },
+  {
+    "id": "practical-example",
+    "title": "Practical Example",
+    "body": "python \"PE_CheatSignature_Extractor_Tool.py\" \"C:\\Program Files\\Cheat Engine\" --min-len 20 --max-len 40 > AntiCheatSignatures.h This will scan all executable files in that directory, signature extraction can take while and the output file may be several hundred MB or larger.\nIf you prefer, you can use the lean version which automatially places a maximum capacity of unique patterns acquired."
+  },
+  {
+    "id": "best-practices",
+    "title": "Best Practices",
+    "body": "Target Specific Cheats : Focus on known cheat binaries rather than scanning all executables Optimal Length : Use 16-64 byte patterns (default) for best detection Verify Signatures : Test signatures in a controlled environment before deployment Combine Techniques : Use with other detection methods for defense-in-depth Update Regularly : Refresh signatures when cheats update their binaries"
+  },
+  {
+    "id": "advanced-options",
+    "title": "Advanced Options",
+    "body": "| Parameter          | Description                                  | Default |\n|--------------------|----------------------------------------------|---------|\n| --min-len | Minimum signature length (bytes)             | 16      |\n| --max-len | Maximum signature length (bytes)             | 64      |\n| --all-sections | Scan all sections (not just code sections)   | Off     |"
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Troubleshooting",
+    "body": "Common Issues: - ImportError: No module named pefile → Install with pip install pefile - Error parsing file → File might be corrupted or protected\n- No signatures found → Try increasing max length or using --all-sections Note : The tool skips common PE headers and high-entropy patterns to avoid false positives."
+  },
+  {
+    "id": "security-considerations",
+    "title": "Security Considerations",
+    "body": "Run the tool in a secure environment when analyzing untrusted binaries Checksums of known good files should be verified before analysis Treat extracted signatures as confidential anti-cheat assets For enterprise support or signature database licensing, contact us."
   },
   {
     "id": "scue5-eula",
-    "title": "EULA",
-    "body": "SCUE5 End-User Legal Agreement..."
+    "title": "SCUE5 EULA",
+    "body": "Last updated: July 2025 This End-User License Agreement (“ Agreement ”) is a legal agreement between you (either an individual or a single entity, “ Licensee ”) and The Hokkaido Hideout (“ Licensor ”), governing your use of the SCUE5 (Unreal Anti-Cheat Suite) plugin, including all associated modules, documentation, and pattern signature databases (collectively, the “ Software ”). By installing, copying, or otherwise using the Software, you agree to be bound by the terms of this Agreement. If you do not agree, do NOT install or use the Software. 1. Definitions “Licensed Materials” : The Software, including binaries ( .uplugin , DLLs), sample projects, documentation, and any updated modules. “Signature Database” : The proprietary cheat-pattern database delivered from Licensor’s servers under subscription. “Subscription” : The recurring license to access Signature Database updates, as purchased via Licensor’s website. “CCU” : Concurrent Users; the maximum number of simultaneous players co"
   }
 ]
