@@ -1,0 +1,57 @@
+[
+  {
+    "id": "features",
+    "title": "Overview",
+    "body": "SCUE5 features overview..."
+  },
+  {
+    "id": "scue5-settings",
+    "title": "Plugin Settings",
+    "body": "SCUE5 configs via project settings panel..."
+  },
+  {
+    "id": "secure-variable-types",
+    "title": "Encrypted Types",
+    "body": "SCUE5 proprietary data types..."
+  },
+  {
+    "id": "usage-examples",
+    "title": "Code Samples",
+    "body": "SCUE5 native usage samples of encrypted types..."
+  },
+  {
+    "id": "enhanced-cheat-detection-system",
+    "title": "Enhanced Cheat Detection System",
+    "body": "SCUE5 industry level anti-cheat sentinel agent..."
+  },
+  {
+    "id": "runtime-stack-capture-system",
+    "title": "Runtime Stack Capture System",
+    "body": "SCUE5 runtime memory pattern scanner..."
+  },
+  {
+    "id": "behavioral-analysis-system",
+    "title": "Behavioral Analysis",
+    "body": "SCUE5 runtime player metrics parser..."
+  },
+  {
+    "id": "scue5-blueprint-obfuscation",
+    "title": "Blueprint Obfuscation",
+    "body": "SCUE5 cutting-edge proprietary blueprint code obfuscator..."
+  },
+  {
+    "id": "scue5-unit-test-module",
+    "title": "Unit Test Module",
+    "body": "SCUE5 automated testing environment..."
+  },
+  {
+    "id": "pe-signature-extraction-tool",
+    "title": "PE Signature Tool",
+    "body": "SCUE5 proprietary cheat pattern collection tool..."
+  },
+  {
+    "id": "scue5-eula",
+    "title": "EULA",
+    "body": "SCUE5 End-User Legal Agreement..."
+  }
+]
