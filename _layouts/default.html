@@ -100,23 +100,28 @@
           });
         });
       
-      document.getElementById('search-box').addEventListener('input', function () {
-        const query = this.value.trim();
-        const results = lunrIndex.search(query);
         const output = document.getElementById('search-results');
         output.innerHTML = '';
-      
+        
         results.forEach(result => {
           const doc = docs.find(d => d.id === result.ref);
-          const html = `
-            <div class="search-hit">
-              <h3><a href="#${doc.id}">${doc.title}</a></h3>
-              <p>${doc.body.slice(0, 200)}...</p>
-            </div>
-          `;
-          output.innerHTML += html;
+          if (!doc) return;
+        
+          const hit = document.createElement('div');
+          hit.className = 'search-hit';
+        
+          const link = document.createElement('a');
+          link.href = `#${doc.id}`;
+          link.innerHTML = `<h3>${doc.title}</h3><p>${doc.body.slice(0, 200)}...</p>`;
+        
+          link.addEventListener('click', () => {
+            output.innerHTML = '';
+            document.getElementById('search-box').value = '';
+          });
+        
+          hit.appendChild(link);
+          output.appendChild(hit);
         });
-      });
       </script>
 
   </body>
