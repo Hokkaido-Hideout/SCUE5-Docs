@@ -327,10 +327,6 @@ footer .footer {
   box-shadow: 0 0 15px #000;
 }
 
-.mermaid svg defs {
-  display: block;
-}
-
 .mermaid-zoom-wrapper,
 .mermaid {
   position: relative;
