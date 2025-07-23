@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   </head>
+  
   <body>
     <header class="top-toolbar">
       <nav class="nav-container">
@@ -42,6 +43,11 @@
         </ul>
       </nav>
     </header>
+
+    <div class="search-wrapper">
+      <input type="text" id="search-box" placeholder="Search..." />
+      <div id="search-results"></div>
+    </div>
     
     <main id="content" class="main-content" role="main">
       {{ content }}
