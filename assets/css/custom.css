@@ -331,10 +331,16 @@ footer .footer {
   display: block;
 }
 
-.mermaid .node rect,
-.mermaid .node polygon {
-  stroke: #00ffe0 !important;
-  stroke-width: 2px !important;
-  fill: #111 !important;
-  filter: url(#neon-glow);
+.mermaid-zoom-wrapper,
+.mermaid {
+  position: relative;
+  background: #111;
+  padding: 1em;
+  margin: 2em 0;
+  border-radius: 10px;
+  box-shadow:
+    0 0 8px #00ffe0,
+    0 0 16px #00ffe0,
+    0 0 24px #00ffe0;
+  border: 1px solid #00ffe0;
 }
