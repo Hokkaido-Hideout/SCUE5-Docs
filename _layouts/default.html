@@ -55,6 +55,34 @@
     </div>
 
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const blocks = document.querySelectorAll('pre > code.language-mermaid');
+      
+        blocks.forEach((block, i) => {
+          const graphDefinition = block.textContent;
+          const wrapper = document.createElement('div');
+          wrapper.className = 'mermaid-zoom-wrapper';
+      
+          const container = document.createElement('div');
+          container.className = 'mermaid';
+          container.innerHTML = graphDefinition;
+      
+          wrapper.appendChild(container);
+          block.parentElement.replaceWith(wrapper);
+        });
+      
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      });
+    </script>
+
+    <script>
+      document.querySelectorAll('pre > code:not(.language-mermaid)').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+    <script>
       let lunrIndex;
       let docs = [];
     
