@@ -263,6 +263,18 @@ footer .footer {
   );
 }
 
+.search-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 0.75em 1em;
+  background: #0d1117;
+  border-top: 1px solid #222;
+  z-index: 998;
+}
+
 #search-box {
   width: 100%;
   box-sizing: border-box;
