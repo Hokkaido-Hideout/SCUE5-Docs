@@ -65,6 +65,10 @@ footer .footer {
   top: 0;
 }
 
+.top-toolbar + .main-content {
+  padding-top: 80px;
+}
+
 .nav-container {
   display: flex;
   width: 100%;
