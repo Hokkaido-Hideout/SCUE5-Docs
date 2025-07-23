@@ -132,27 +132,7 @@
       });
     </script>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const svgFilter = `
-          <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#00ffe0"/>
-            <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#00ffe0"/>
-          </filter>
-        `;
-      
-        const observer = new MutationObserver(() => {
-          document.querySelectorAll('.mermaid svg').forEach(svg => {
-            if (!svg.querySelector('#neon-glow')) {
-              const defs = svg.querySelector('defs') || svg.insertBefore(document.createElementNS("http://www.w3.org/2000/svg", "defs"), svg.firstChild);
-              defs.innerHTML += svgFilter;
-            }
-          });
-        });
-      
-        observer.observe(document.body, { childList: true, subtree: true });
-      });
-    </script>
+
     
   </body>
 </html>
