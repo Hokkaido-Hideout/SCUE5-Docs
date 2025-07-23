@@ -269,10 +269,12 @@ footer .footer {
 }
 
 .hljs {
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
+  font-family: 'Hack', monospace;
+  font-size: 16px;
+  font-weight: bold;
   padding: 1em;
-  border-radius: 6px;
   background: #0d1117;
   color: #c9d1d9;
+  border-radius: 6px;
+  box-shadow: 0 0 15px #000;
 }
