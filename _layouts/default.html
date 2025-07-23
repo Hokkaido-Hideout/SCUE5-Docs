@@ -1,67 +1,77 @@
 <!DOCTYPE html>
 <html lang="en-US">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title }} - {{ site.title }}</title>
-
-  <link rel="icon" type="image/png" href="{{ '/assets/img/favicon.png' | relative_url }}">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <script>
-    mermaid.initialize({
-      startOnLoad: false,
-      securityLevel: 'loose',
-      theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
-    });
-  </script>
-</head>
-
-<body>
-  <header class="top-toolbar">
-    <nav class="nav-container">
-      <div class="nav-brand">HKH Interactive</div>
-      <ul class="nav-links">
-        <li class="dropdown">
-          <a href="#">Docs ▾</a>
-          <ul class="dropdown-content">
-            <li><a href="https://scue.hkh-interactive.com">SCUE5</a></li>
-            <li><a href="https://scue.hkh-interactive.com">MGC (C++)</a></li>
-          </ul>
-        </li>
-        <li><a href="https://thehokkaidohideout.com">Home</a></li>
-        <li><a href="https://thehokkaidohideout.com/products/">Products</a></li>
-        <li><a href="https://thehokkaidohideout.com/services/">Services</a></li>
-        <li><a href="https://thehokkaidohideout.com/contact/">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main id="content" class="main-content" role="main">
-    {{ content }}
-  </main>
-
-  <script>
-    // Mermaid rendering for diagrams
-    document.addEventListener("DOMContentLoaded", function () {
-      const blocks = document.querySelectorAll('pre > code.language-mermaid');
-      blocks.forEach((block) => {
-        const graphDefinition = block.textContent;
-        const wrapper = document.createElement('div');
-        wrapper.className = 'mermaid-zoom-wrapper';
-
-        const container = document.createElement('div');
-        container.className = 'mermaid';
-        container.innerHTML = graphDefinition;
-
-        wrapper.appendChild(container);
-        block.parentElement.replaceWith(wrapper);
+  <head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'loose',
+        theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
       });
-      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
-    });
-  </script>
-</body>
+    </script>
+
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <link rel="icon" type="image/png" href="{{ '/assets/img/favicon.png' | relative_url }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+  </head>
+  <body>
+    <header class="top-toolbar">
+      <nav class="nav-container">
+        <div class="nav-brand">HKH Interactive</div>
+        
+        <ul class="nav-links">
+          <li class="dropdown">
+            <a href="#">Docs ▾</a>
+            <ul class="dropdown-content">
+              <li><a href="https://scue.hkh-interactive.com">SCUE5</a></li>
+              <li><a href="https://scue.hkh-interactive.com"">MGC (C++)</a></li>
+            </ul>
+          </li>
+          
+          <li><a href="https://thehokkaidohideout.com">Home</a></li>
+          <li><a href="https://thehokkaidohideout.com/products/">Products</a></li>
+          <li><a href="https://thehokkaidohideout.com/services/">Services</a></li>
+          <li><a href="https://thehokkaidohideout.com/contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <main id="content" class="main-content" role="main">
+      {{ content }}
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const blocks = document.querySelectorAll('pre > code.language-mermaid');
+      
+        blocks.forEach((block, i) => {
+          const graphDefinition = block.textContent;
+          const wrapper = document.createElement('div');
+          wrapper.className = 'mermaid-zoom-wrapper';
+      
+          const container = document.createElement('div');
+          container.className = 'mermaid';
+          container.innerHTML = graphDefinition;
+      
+          wrapper.appendChild(container);
+          block.parentElement.replaceWith(wrapper);
+        });
+      
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
+
+  </body>
 </html>
