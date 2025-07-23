@@ -260,3 +260,12 @@ footer .footer {
 .main-content pre {
   animation: crt-glow 1.5s infinite alternate;
 }
+
+.hljs {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  padding: 1em;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #c9d1d9;
+}
