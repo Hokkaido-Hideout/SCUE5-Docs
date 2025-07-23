@@ -335,8 +335,7 @@ footer .footer {
   margin: 2em 0;
   border-radius: 10px;
   box-shadow:
-    0 0 8px #00ffe0,
-    0 0 16px #00ffe0,
-    0 0 24px #00ffe0;
-  border: 1px solid #00ffe0;
+    0 0 3px #00ffe088,
+    0 0 6px #00ffe044;
+  border: 1px solid #00ffe022;
 }
