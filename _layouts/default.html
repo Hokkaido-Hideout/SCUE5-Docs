@@ -115,8 +115,12 @@
           link.innerHTML = `<h3>${doc.title}</h3><p>${doc.body.slice(0, 200)}...</p>`;
         
           link.addEventListener('click', () => {
-            output.innerHTML = '';
-            document.getElementById('search-box').value = '';
+            output.classList.add('fade-out');
+            setTimeout(() => {
+              output.innerHTML = '';
+              output.classList.remove('fade-out');
+              document.getElementById('search-box').value = '';
+            }, 250);
           });
         
           hit.appendChild(link);
