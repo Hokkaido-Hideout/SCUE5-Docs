@@ -263,19 +263,9 @@ footer .footer {
   );
 }
 
-.search-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #0d1117; /* dark background */
-  padding: 0.75em 1em;
-  z-index: 998;
-  border-top: 1px solid #222;
-}
-
 #search-box {
   width: 100%;
+  box-sizing: border-box;
   font-size: 16px;
   padding: 0.5em;
   background: #111;
