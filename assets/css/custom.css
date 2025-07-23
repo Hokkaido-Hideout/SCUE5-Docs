@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Hack';
+  src: url('/assets/fonts/Hack.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 /* Hide the GitHub button */
 .github-button {
   display: none !important;
