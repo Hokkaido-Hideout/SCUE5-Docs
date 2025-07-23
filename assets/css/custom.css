@@ -327,17 +327,14 @@ footer .footer {
   box-shadow: 0 0 15px #000;
 }
 
-.mermaid svg .node rect,
-.mermaid svg .node polygon {
-  stroke: #00ffe0 !important;
-  stroke-width: 2px !important;
-  fill: #111 !important;
+.mermaid svg defs {
+  display: block;
 }
 
-.mermaid svg .node polygon {
+.mermaid .node rect,
+.mermaid .node polygon {
   stroke: #00ffe0 !important;
   stroke-width: 2px !important;
   fill: #111 !important;
-  filter: drop-shadow(0 0 4px #00ffe0)
-          drop-shadow(0 0 6px #00ffe0);
+  filter: url(#neon-glow);
 }
