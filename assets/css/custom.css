@@ -339,3 +339,42 @@ footer .footer {
     0 0 6px #00ffe044;
   border: 1px solid #00ffe022;
 }
+
+.fab-button {
+  display: flex;
+  align-items: center;
+  background-color: #ffcc00;
+  color: #000;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-right: 1rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 5px #ffcc00aa;
+}
+
+.fab-button:hover {
+  background-color: #ffaa00;
+  color: #111;
+  box-shadow: 0 0 10px #ffaa00cc;
+}
+
+.fab-button .fab-icon {
+  height: 20px;
+  margin-left: 6px;
+  filter: drop-shadow(0 0 2px #000);
+}
+
+@media (max-width: 600px) {
+  .fab-button {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-right: 0.5rem;
+  }
+
+  .fab-button .fab-icon {
+    height: 16px;
+  }
+}
