@@ -1,48 +1,63 @@
-
-# 🔐 Secure-Client UE5 Plugin
-
-**Secure-Client** is a lightweight, encryption-based anti-cheat plugin for **Unreal Engine 5**. It introduces secure memory containers for primitive types and adds process keyword detection for intuitive runtime cheat prevention and anti-tampering.
-
-Europe-Compliant Anti-Cheat - Advanced protection without kernel spies. Stop memory hackers while respecting player privacy.
-
-This implementation provides **military-grade** protection for data values while maintaining full property manipulation capabilities.
-The security features include hardware-enforced memory protection, automatic key rotation, compression for large strings, and comprehensive tamper detection, making it suitable for sensitive game data like player names, authentication tokens, steam ids, save data, and configuration files.
-
-Ideal for protecting sensitive in-game values like player stats, currency, micro-transactions, and online game states.
-
+---
+layout: default
+title: Secure-Client UE5 Documentation
+permalink: /
 ---
 
-## 🧩 Table of Contents
+# Secure-Client UE5 (SCUE5)
 
-1.  [Overview](#features)
-2.  [Plugin Settings](#scue5-settings)
-3.  [Encrypted Types](#secure-variable-types)
-4.  [Code Samples](#usage-examples)
-5.  [Enhanced Cheat Detection System](#enhanced-cheat-detection-system)
-6.  [Runtime Stack Capture System](#runtime-stack-capture-system)
-7.  [Behavioral Analysis](#behavioral-analysis-system)
-8.  [Blueprint Obfuscation](#scue5-blueprint-obfuscation)
-9.  [Unit Test Module](#scue5-unit-test-module)
-10. [PE Signature Tool](#pe-signature-extraction-tool)
-11. [EULA](#scue5-eula)
+SCUE5 provides protected gameplay value types, Windows process/memory integrity checks, behavioral analysis, and a configurable infraction reaction pipeline for Unreal Engine 5 games.
+
+Use server validation to decide player penalties. Client detections are reports, and persistent bans belong to your game's authenticated moderation backend.
+
+**Documentation updated: October 2, 2026.** The infraction infrastructure described here was source-verified in the Indie UE5.6 development implementation. Check your installed plugin version and edition before using these APIs; this documentation update does not announce availability in every release or engine version.
+
+## Start here
+
+| Task | Documentation |
+| --- | --- |
+| Protect gameplay values | [Secure variable types](#secure-variable-types) and [usage examples](#usage-examples) |
+| Configure detected infractions | [Infraction reactions](#infraction-reactions) |
+| Build a Blueprint server listener | [Blueprint collection](#blueprint-infraction-collection) |
+| Collect server-local evidence and retain it | [Logging and retention](#infraction-logging-and-retention) |
+| Integrate OnRep / RPC validation | [Validation failures](#infraction-validation-failures) |
+| Read the complete infraction guide | [Configuration, collection and retention](docs/InfractionReactions.md) |
+
+## Contents
+
+- [Features](#features)
+- [Plugin settings](#scue5-settings)
+- [Infraction reactions](#infraction-reactions)
+- [Secure variable types](#secure-variable-types)
+- [Usage examples](#usage-examples)
+- [Enhanced cheat detection](#enhanced-cheat-detection-system)
+- [Runtime stack capture](#runtime-stack-capture-system)
+- [Runtime hooks](#understanding-runtime-hooks)
+- [Behavioral analysis](#behavioral-analysis-system)
+- [Blueprint obfuscation](#scue5-blueprint-obfuscation)
+- [Automation tests](#scue5-unit-test-module)
+- [PE signature extraction](#pe-signature-extraction-tool)
+- [EULA](#scue5-eula)
+
+The technical reference below contains historical examples and conceptual integration patterns. Match individual APIs to your installed source. For reaction decisions, event collection and retention, use the current infraction sections and guide.
 
 ---
 
 ## Features
 
-- 🔐 Encrypted variable wrappers for Bool, Int, Float, String, and more
-- 🧠 Dual-buffer encoding and memory shifting for obfuscation
-- 🔑 Supports global and custom encryption keys
-- 🧾 SaveGame serialization support for all secure types
-- 🧪 Blueprint-compatible: use secure types in visual scripting
-- 🕵️ Built-in keyword-based process detection (Windows only)
-- 🛡️ Designed for basic anti-cheat and anti-tamper hardening
+- Protected value wrappers for scalar, text, vector and other gameplay types.
+- Blueprint integration and secure-type serialization.
+- Windows process/window detection and memory integrity checks.
+- Gameplay behavioral analysis with project-specific telemetry integration.
+- Per-infraction Online, LAN and Standalone response actions.
+- Game-instance Blueprint delegates for authoritative incidents, local detections, client hints and action results.
+- Security text logging and behavioral JSON export, with developer-owned durable incident retention.
 
 ---
 
-### SCUE5 Settings
+## SCUE5 Settings
 
-Editable via **Project Settings → Plugins → Secure-Client**.
+In the source-verified UE5.6 implementation, open **Project Settings > HKH > [HKH] Anti-Cheat Settings** for detector settings and **Project Settings > HKH > SCUE5 Infraction Reactions** for response policies. Older releases may expose a different category.
 
 | Property | Description |
 |----------|-------------|
@@ -53,9 +68,96 @@ Editable via **Project Settings → Plugins → Secure-Client**.
 
 ---
 
+## Infraction Reactions
+
+SCUE5 routes accepted detections and integrated validation failures through the **SafeGameInstanceSubsystem**. Each game instance has its own hub, including separate PIE instances.
+
+Open **Project Settings > HKH > SCUE5 Infraction Reactions**. The native Slate panel presents threat tabs, selectable infraction cards, session-specific reactions, evidence gates, per-field resets, and a simulation-only preview.
+
+![SCUE5 native Slate infraction reactions panel showing threat categories, session policy and selected rule settings](assets/img/infraction-reactions.png)
+
+*UE5.6 native settings customization, captured in a dedicated preview window.*
+
+| Scope | What you configure |
+| --- | --- |
+| Each infraction | Separate Online, LAN and Standalone actions. |
+| Shared across contexts | Enabled switch, minimum confidence, cooldown, custom action key and kick message. |
+| Whole pipeline | Global enable switch and default network context. |
+
+The 31 codes are classified into Low (1), Moderate (5), High (19) and Critical (6) groups in the current defaults. The default reactions are Log for Standalone/LAN and WatchList for Online. Each rule initially uses minimum confidence 0 and a 10-second cooldown.
+
+Settings save through Unreal's Game configuration, normally `Config/DefaultGame.ini`, under `[/Script/SCUE5BehaviorCore.SCUE5ReactionSettings]`. Choosing a response does not enable a detector that your game has not integrated.
+
+### Session policy and server authority
+
+**Configure for** selects the action field you are editing; it does not change the running session. On the server, call **Get SCUE5 Reactions > Set Session Context** with LAN or Online when creating or switching sessions, and check the result. Network context defaults to Online. Standalone worlds use their Standalone policy.
+
+Dedicated and listen servers use the same policy mechanism. Authority is enforced separately from session type: LAN still has an authoritative server. Clients cannot execute configured server penalties. No separate dedicated-server, listen-server or Editor/PIE policy profile is implemented.
+
+### Available reactions
+
+| Reaction | Built-in behavior |
+| --- | --- |
+| Ignore | Broadcasts an accepted authoritative incident without a reaction diagnostic log. |
+| Log | Emits a diagnostic through Unreal logging; does not create a durable structured incident record. |
+| WatchList | Adds an attributable PlayerController to a temporary game-instance watch list. |
+| Kick | Attempts an authoritative GameSession kick; can fail for a host, missing connection or unattributable incident. |
+| Custom | Broadcasts On Custom Reaction with your CustomAction key. |
+| BanRequest | Broadcasts On Ban Requested for your authenticated account/backend handler. |
+
+Automatic repeated-detection counts, temporary-ban durations, permanent-ban persistence and a moderation dashboard are not built-in features of this pipeline.
+
+### Blueprint infraction collection
+
+Bind once per server game instance to **Get SCUE5 Reactions** from a valid game-world object. Manage listener lifetime across travel to avoid duplicate records.
+
+| Delegate | Data to collect |
+| --- | --- |
+| On Infraction | Accepted authoritative incident, before the reaction runs. |
+| On Reaction Applied | Same EventID plus built-in execution success. |
+| On Custom Reaction | Your custom response request. |
+| On Ban Requested | Your backend ban request. |
+| On Local Infraction | Client-local diagnostic; not server evidence. |
+| On Client Report | Server-received untrusted client hint, authority false and confidence zero. |
+
+The event includes EventID, infraction code, threat level, reaction, session context, Subject, PlayerID, PlayerName, Details, CustomAction, Confidence, UTC Timestamp and bServerAuthority.
+
+Copy scalar/text/enum fields immediately into your own record. Subject is a live actor reference, and PlayerName is display-only. PlayerID comes from the online subsystem and may be empty or session-only; add your game's authenticated account, match and server identifiers before retaining moderation evidence.
+
+On Infraction is a **post-filter** feed: disabled rules/pipeline, insufficient confidence, cooldown suppression and recursive dispatch do not reach it. It is not a raw detection history. On Reaction Applied does not confirm disk persistence; Custom/BanRequest report false there because the hub cannot verify external completion.
+
+### Infraction logging and retention
+
+Files are local to the process that writes them. A dedicated server writes on the server machine; a listen server writes on its host. Client files are not automatically collected by the server.
+
+| Output | Default path | Coverage |
+| --- | --- | --- |
+| GameSecurity text | `Saved/Logs/AntiCheat/SecurityLog_<timestamp>_<guid>.ace` | Calls to the security logger at or above its threshold; plain UTF-8, not encryption. |
+| Behavior audit JSON | `Saved/BehaviorAudit/<player>_Audit_<guid>.json` | Behavioral telemetry exports, including Normal risk profiles. |
+| Reaction diagnostics | Ordinary Unreal log output, when enabled | Accepted reactions except Ignore, and accepted local detections. |
+
+**There is no complete built-in durable infraction journal.** The text and JSON exporters are separate from the reaction delegates. There is no automatic backend upload, file rotation, age-based cleanup or retry queue. Queued file writes can be dropped under overload or shutdown; diagnostic logging also depends on the target's Shipping configuration.
+
+For Blueprint-only local retention, create a project incident record struct and SaveGame Blueprint, collect incidents and action outcomes by EventID, then save bounded batches with **Async Save Game to Slot** and check completion. Serialize writes to each slot and implement your own retry/archive policy.
+
+For central retention, connect the authoritative listener to your database or moderation service. Keep detection, policy decision and execution outcome distinct; record backend acknowledgments. Watch lists are weak references capped at 4,096 players and are cleared on teardown. Bans require your own persistence and login enforcement.
+
+See the [complete logging, collection and retention guide](docs/InfractionReactions.md) for schemas, queue limits, deployment paths and verification steps. Retention tooling must implement the applicable requirements of your license, including [the EULA](#scue5-eula); the plugin does not automatically expire files.
+
+### Infraction validation failures
+
+- In OnRep, call **SCUE5 Check Validation Result** with Stage=OnRep and branch on its result. Client failures remain local diagnostics/hints.
+- At the start of a Blueprint server event, validate against server data, call the helper with Stage=RPC, and skip the operation on failure.
+- Add **SCUE5 Validation Component** to your PlayerController Blueprint to transport local detections as untrusted client hints. The component replicates by default and does not tick.
+- In C++ `_Validate`, call `USCUE5ReactionLibrary::CheckValidationResult` before returning the predicate.
+
+The plugin's own transport RPC is integrated. Arbitrary project OnRep and RPC validators must call the helper; no global engine hook is installed. Unreal still disconnects a peer when a native RPC `_Validate` returns false, even if the selected SCUE5 reaction is Ignore or Log.
+
+---
+
 ## Secure Variable Types
 
-Each secure type stores encrypted values internally using **Base/Shift containers**. Switching occurs on access to make memory tracing harder.
+Secure types wrap gameplay values in protected storage. The storage and key-handling implementation varies by plugin revision; use the accessors and serialization supplied by your installed version rather than depending on an internal buffer layout.
 
 | Type          | Description                    |
 |---------------|--------------------------------|
@@ -362,24 +464,9 @@ The SCUE5 system provides a multi-layered approach to cheat detection and preven
 3. Enable the plugin in your project settings
 
 ## Configuration
-Configure detection parameters in `DefaultSCUE5.ini`:
+Configure detector properties through the installed plugin's Project Settings panel. The current `USCUE5Settings` class uses Unreal's Game configuration. Let the editor serialize its arrays and signature structs rather than pasting a legacy `[SCUE5_Settings]` example into a separate INI.
 
-```ini
-[SCUE5_Settings]
-; Process names to detect (exact match)
-IllegalProcessNames="cheatengine-x86_64.exe"
-IllegalProcessNames="artmoney.exe"
-IllegalProcessNames="wpepro.exe"
-
-; Keywords for window/process detection
-IllegalKeywords="cheat"
-IllegalKeywords="trainer"
-IllegalKeywords="debugger"
-
-; Memory signatures (hex patterns)
-CheatSignatures=90 90 90
-CheatSignatures=E9 00 00 00 00
-```
+Reaction policies are configured independently in [Infraction Reactions](#infraction-reactions).
 
 ## Usage
 ### Basic Implementation
@@ -715,48 +802,9 @@ bool VerifyModuleOrigins(const TArray<void*>& StackFrames)
 
 ### 4. Security Responses
 
-#### Emergency Shutdown
-```cpp
-void SecurityShutdown(const FString& Reason)
-{
-    // Critical: Execute in guarded memory
-    {
-        // Log to secure channel
-        //LogToSecureServer(Reason);
-        
-        // Immediate termination
-        FPlatformMisc::RequestExit(true, *Reason);
-        
-        // Nuclear option
-        //TerminateProcess(GetCurrentProcess(), 0xDEAD);
-    }
-}
-```
+Use the [infraction reaction pipeline](#infraction-reactions) to select Log, WatchList, Kick, Custom or BanRequest for the appropriate session context. Integrate server authority and durable evidence collection before applying account penalties.
 
-#### Suspicious Activity Response
-```cpp
-void HandleSuspiciousActivity(const TArray<void*>& StackFrames)
-{
-    // Throttle responses to prevent DoS
-    static FDateTime LastResponse = FDateTime::MinValue();
-    if((FDateTime::Now() - LastResponse).GetSeconds() < 5) return;
-    
-    // Capture forensic data
-    FSecurityEvent EventData;
-    EventData.StackTrace = StackFrames;
-    EventData.MemorySnapshot = CaptureMemoryRegions();
-    EventData.ThreadContext = CaptureThreadState();
-    
-    // Submit to security server
-    SubmitForensicData(EventData);
-    
-    // Optional: Disable vulnerable features
-    if(IsCriticalVulnerability())
-        DisableGameFeature(EFeatureFlags::OnlineServices);
-    
-    LastResponse = FDateTime::Now();
-}
-```
+The former forced-process-exit example is not the current reaction integration. Use project Blueprint/backend handlers for custom responses. The example stack-analysis APIs above are conceptual integration code and must be checked against your installed source.
 
 ## Configuration Settings
 
@@ -1202,21 +1250,11 @@ WinRateAnomalyMultiplier=1.5
 
 ## Monitoring & Reporting
 
-### Detection Events
-| Event Code | Severity | Description | Auto-Action |
-|-----------|----------|-------------|-------------|
-| `IMPOSSIBLE_TURN` | Critical | Physics-defying rotation | Kick after 3 |
-| `MACHINE_PRECISION` | High | Robotic input consistency | Kick after 5 |
-| `SUPERHUMAN_REACTIONS` | High | Consistent sub-100ms reactions | Verify then kick |
-| `POSITION_TELEPORT` | Critical | Impossible movement | Immediate kick |
-| `AIMBOT_SUSPECT` | High | Impossible accuracy | Verify then kick |
+Behavioral signals feed the configurable [infraction pipeline](#infraction-reactions). Severity does not automatically imply a kick, and there is no built-in “kick after N detections” policy.
 
-### Reporting Workflow
-1. **Server-Side Logging**: Compact binary format with key metrics
-2. **Security Dashboard**: Real-time visualization of detections
-3. **Player Case Files**: Longitudinal behavior profiles
-4. **Cheat Signature Extraction**: Pattern aggregation across offenders
-5. **Threshold Calibration**: Automatic parameter tuning based on results
+Collect accepted authoritative events through **On Infraction**, execution outcomes through **On Reaction Applied**, and untrusted client hints through **On Client Report**. Behavioral JSON audits and security text files have separate coverage; neither is a complete player case database.
+
+A reporting dashboard, longitudinal case files, persistent bans, automatic calibration and backend uploads require project integration. See [Infraction Reactions: collection and retention](docs/InfractionReactions.md).
 
 ---
 
@@ -1256,11 +1294,7 @@ The SCUE5 Blueprint Obfuscation System is a revolutionary security solution that
 ## Getting Started
 
 ### Activation
-Enable protection in `Project Settings → SCUE5 → Security`:
-```ini
-[SCUE5]
-EnableBlueprintObfuscation=True
-```
+Blueprint obfuscation is opt-in and defaults to disabled in the current source. Configure `EnableBlueprintObfuscation` through the installed plugin's anti-cheat settings. Enable and validate it deliberately for your game's assets; installing the plugin does not globally enable compiler interception.
 
 ### How It Works
 ```mermaid

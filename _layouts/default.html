@@ -116,9 +116,15 @@
       // Search input listener
       document.getElementById('search-box').addEventListener('input', function () {
         const query = this.value.trim();
-        const results = lunrIndex.search(query);
         const output = document.getElementById('search-results');
         output.innerHTML = '';
+        if (!lunrIndex || !query) return;
+        let results;
+        try {
+          results = lunrIndex.search(query);
+        } catch {
+          return;
+        }
     
         results.forEach(result => {
           const doc = docs.find(d => d.id === result.ref);
@@ -128,7 +134,7 @@
           hit.className = 'search-hit';
     
           const link = document.createElement('a');
-          link.href = `#${doc.id}`;
+          link.href = doc.url || `/#${doc.id}`;
           link.innerHTML = `<h3>${doc.title}</h3><p>${doc.body.slice(0, 200)}...</p>`;
     
           link.addEventListener('click', () => {
@@ -139,6 +145,19 @@
           hit.appendChild(link);
           output.appendChild(hit);
         });
+      });
+    </script>
+
+    <script>
+      // Keep Markdown links readable on GitHub and route them to built Jekyll pages here.
+      document.querySelectorAll('main a[href]').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || /^(?:[a-z]+:|\/\/|#)/i.test(href)) return;
+        if (/README\.md(?=#|$)/i.test(href)) {
+          link.href = {{ '/' | relative_url | jsonify }} + (href.split('#')[1] ? '#' + href.split('#')[1] : '');
+        } else if (/\.md(?=#|$)/i.test(href)) {
+          link.setAttribute('href', href.replace(/\.md(?=#|$)/i, '.html'));
+        }
       });
     </script>
     
